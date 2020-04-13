@@ -4,11 +4,14 @@ import time
 from app import BoggleBoard
 from config import Config
 
+from board import Board, Node
+
 
 def generate_valid_words(board, dictionary_words):
     valid_words = []
 
-    # TODO: fill in algorithm here
+    b = Board(board)
+    print(b)
 
     return valid_words
 
