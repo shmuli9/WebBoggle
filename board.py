@@ -39,21 +39,70 @@ import random
 
 
 class Board:
-    size = 4
-    nodes = [[{} for i in range(4)] for j in range(4)]
-
     def __str__(self):
         out = ""
         for i in range(self.size):
             for j in range(self.size):
                 out += f"{str(self.nodes[i][j].letter)} " \
-                       f"- Possible transitions: {str(self.nodes[i][j].possible_transitions())}"
+                    # f"- Possible transitions: {str(self.nodes[i][j].possible_transitions())}"
                 out += " " if j is not self.size - 1 else ""
             out += "\n" if i is not self.size - 1 else ""
         return out
 
+    def print_board(self):
+        # "➡ ⬅ ⬆ ⬇ ↗ ↘ ↙ ↖"
+        row = ""
+        for i in range(self.size):
+            line1 = ""
+            line2 = ""
+            line3 = ""
+            for j in range(self.size):
+                lines = self._cell(self.nodes[i][j]).split("\n")
+                line1 += lines[0]
+                line2 += lines[1]
+                line3 += lines[2]
+            row += f"{line1}\n{line2}\n{line3}"
+            row += " " if j is not self.size - 1 else ""
+            row += "\n" if i is not self.size - 1 else ""
+        return row
+
+    def _cell(self, node):
+        output = ""
+        letter = node.letter
+        trans = node.possible_transitions()
+        symbols = {
+            "up": " ⬆ ",
+            "down": " ⬇ ",
+            "right": " ➡ ",
+            "left": " ⬅ ",
+            "upRight": " ↗ ",
+            "upLeft": " ↖ ",
+            "downRight": " ↘ ",
+            "downLeft": " ↙ "
+        }
+        spacing = "  "
+
+        output += symbols["upLeft"] if "upLeft" in trans else spacing
+        output += symbols["up"] if "up" in trans else spacing
+        output += symbols["upRight"] if "upRight" in trans else spacing
+        output += "\n"
+
+        output += symbols["left"] if "left" in trans else spacing
+        output += letter + " "
+        output += symbols["right"] if "right" in trans else spacing
+        output += "\n"
+
+        output += symbols["downLeft"] if "downLeft" in trans else spacing
+        output += symbols["down"] if "down" in trans else spacing
+        output += symbols["downRight"] if "downRight" in trans else spacing
+        output += "\n"
+
+        return output
+
     def __init__(self, board, size=4):
         self.size = size
+        self.nodes = [[{} for i in range(4)] for j in range(4)]
+
         for i in range(size):
             for j in range(size):
                 self.nodes[i][j] = Node(board[i][j])
