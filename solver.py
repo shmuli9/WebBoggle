@@ -19,11 +19,10 @@ def generate_valid_words(board, dictionary_words):
     valid_words = []
     b = Board(board)
     print(b)
-    # print(b.print_board())
 
-    size = 4
-    for i in range(size):
-        for j in range(size):
+    boardSize = 4
+    for i in range(boardSize):
+        for j in range(boardSize):
             start_node = b.nodes[i][j]
             valid_words += rec_words(start_node)
 
