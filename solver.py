@@ -3,6 +3,7 @@ import time
 
 from app import BoggleBoard
 from board import Board
+from wordtree import WordTree
 from config import Config
 
 moves = ["right",
@@ -37,7 +38,7 @@ def rec_words(node, word="", visited=None):
     curr_word = word + node.letter
 
     if len(curr_word) > 2:  # min length of word is 3
-        if curr_word.lower() in words:
+        if curr_word.upper() in words: # if letter.isWord:
             valid_words.append(curr_word.upper())
         if len(curr_word) > 4:
             return valid_words
@@ -50,6 +51,17 @@ def rec_words(node, word="", visited=None):
                 valid_words.extend(rec_words(node.transitions[move], curr_word, visited + [node]))
 
     return valid_words
+
+
+def create_wordtree(word_list, min_word_size=3):
+    word_dictionary = WordTree()
+
+    for word in word_list:
+        if len(word) < min_word_size:
+            continue
+
+        word_dictionary.add(word)
+    return word_dictionary
 
 
 if __name__ == '__main__':
@@ -77,8 +89,14 @@ if __name__ == '__main__':
         print(f"{len(word_list)} words were generated in {end - start:.6f} seconds")
 
 
-    with open("words_alpha.txt") as file:
+    with open("words_alpha_collins.txt") as file:
         words = file.read().split("\n")
+
+    # start = time.time()
+    # # words = create_wordtree(words)
+    #
+    # print(str(words)[:1000])
+    # print(time.time() - start)
 
     print("\nPreconfigured board:")
     print("-" * 20)

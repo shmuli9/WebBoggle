@@ -1,3 +1,5 @@
+import random
+
 class Node:
     def __init__(self, letter, trans=None):
         self.letter = ""
@@ -33,10 +35,6 @@ class Node:
             if self.transitions[t] != {}:
                 trans.append(t)
         return trans
-
-
-import random
-
 
 class Board:
     def __str__(self):
