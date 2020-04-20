@@ -77,6 +77,7 @@ if __name__ == '__main__':
                 board.append([random.choice(board_dice.pop()) for __ in range(4)])
 
         else:
+            dice = dice  # in case of the lower case u in Qu
             board = [[dice[i + j] for j in range(4)] for i in range(4)]
 
         return BoggleBoard(board)
@@ -84,7 +85,7 @@ if __name__ == '__main__':
 
     def run_generator(board):
         start = time.time()
-        word_list = generate_valid_words(generate_board().board)
+        word_list = generate_valid_words(board.board)
         end = time.time()
 
         print(sorted(word_list))
