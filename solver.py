@@ -4,7 +4,7 @@ import time
 from app import BoggleBoard
 from board import Board
 from config import Config
-from wordtree import WordTree
+from wordtree import WordTree, WTNode
 
 moves = ["right",
          "left",
@@ -16,7 +16,7 @@ moves = ["right",
          "downLeft"]
 
 
-def generate_valid_words(board, dictionary_words):
+def generate_valid_words(board):
     valid_words = []
     b = Board(board)
     print(b)
@@ -25,30 +25,33 @@ def generate_valid_words(board, dictionary_words):
     for i in range(boardSize):
         for j in range(boardSize):
             start_node = b.nodes[i][j]
-            valid_words += rec_words(start_node)
+            if start_node.letter in wt.children:
+                valid_words += rec_words(start_node, wt.children[start_node.letter])
 
     return set(valid_words)
 
 
-def rec_words(node, word="", visited=None):
+def rec_words(node, wt_node: WTNode, word="", visited=None):
     if visited is None:
         visited = []
 
     valid_words = []
-    curr_word = word + node.letter
+    dict_letter = wt_node.data
+    curr_word = word + dict_letter
 
-    if len(curr_word) > 2:  # min length of word is 3
-        if curr_word.upper() in words: # if letter.isWord:
-            valid_words.append(curr_word.upper())
-        if len(curr_word) > 4:
-            return valid_words
+    # if curr_word.upper() in words:
+    if wt_node.isWord:
+        valid_words.append(curr_word)
 
-    trans = node.possible_transitions()
+    legal_trans = node.possible_transitions()
 
     for move in moves:
-        if move in trans:
+        if move in legal_trans:
             if node.transitions[move] not in visited:
-                valid_words.extend(rec_words(node.transitions[move], curr_word, visited + [node]))
+                next_node = node.transitions[move]
+                next_letter = next_node.letter
+                if next_letter in wt_node.children:
+                    valid_words.extend(rec_words(next_node, wt_node.children[next_letter], curr_word, visited + [node]))
 
     return valid_words
 
@@ -81,30 +84,21 @@ if __name__ == '__main__':
 
     def run_generator(board):
         start = time.time()
-        word_list = generate_valid_words(generate_board().board, words)
+        word_list = generate_valid_words(generate_board().board)
         end = time.time()
 
         print(sorted(word_list))
 
         print(f"{len(word_list)} words were generated in {end - start:.6f} seconds")
 
-    # def checkWordTree(wordList, wordTree):
-    #     print("checking wordtree")
-    #     missed_words = []
-    #     for word in wordList:
-    #         if not wordTree.findString(word):
-    #             missed_words.append(word)
-    #     print("finished checking wordtree")
-    #     print(len(missed_words), " words were skipped:\n", missed_words)
-
-    # checkWordTree(words, wordsInTree)
-
     start = time.time()
     wt = WordTree()
+    words = []
     with open("words_alpha_collins.txt") as file:
         for word in file.read().split("\n"):
             wt.add(word)
-    print(time.time() - start, "s")
+            # words.append(word)
+    print(f"took {time.time() - start:.6f}s to create the word tree")
 
     print("\nPreconfigured board:")
     print("-" * 20)
@@ -113,3 +107,14 @@ if __name__ == '__main__':
     print("\nRandom board:")
     print("-" * 20)
     run_generator(generate_board())
+
+    def checkWordTree(wordList, wordTree):
+        print("checking wordtree")
+        missed_words = []
+        for word in wordList:
+            if not wordTree.findString(word):
+                missed_words.append(word)
+        print("finished checking wordtree")
+        print(len(missed_words), " words were skipped:\n", missed_words)
+
+    # checkWordTree(words, wt)
