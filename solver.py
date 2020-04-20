@@ -3,8 +3,8 @@ import time
 
 from app import BoggleBoard
 from board import Board
-from wordtree import WordTree
 from config import Config
+from wordtree import WordTree
 
 moves = ["right",
          "left",
@@ -88,15 +88,23 @@ if __name__ == '__main__':
 
         print(f"{len(word_list)} words were generated in {end - start:.6f} seconds")
 
+    # def checkWordTree(wordList, wordTree):
+    #     print("checking wordtree")
+    #     missed_words = []
+    #     for word in wordList:
+    #         if not wordTree.findString(word):
+    #             missed_words.append(word)
+    #     print("finished checking wordtree")
+    #     print(len(missed_words), " words were skipped:\n", missed_words)
 
+    # checkWordTree(words, wordsInTree)
+
+    start = time.time()
+    wt = WordTree()
     with open("words_alpha_collins.txt") as file:
-        words = file.read().split("\n")
-
-    # start = time.time()
-    # # words = create_wordtree(words)
-    #
-    # print(str(words)[:1000])
-    # print(time.time() - start)
+        for word in file.read().split("\n"):
+            wt.add(word)
+    print(time.time() - start, "s")
 
     print("\nPreconfigured board:")
     print("-" * 20)
