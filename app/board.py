@@ -1,4 +1,5 @@
 import random
+from app.config import Config
 
 class Node:
     def __init__(self, letter, trans=None):
@@ -35,6 +36,7 @@ class Node:
             if self.transitions[t] != {}:
                 trans.append(t)
         return trans
+
 
 class Board:
     def __str__(self):
@@ -97,13 +99,23 @@ class Board:
 
         return output
 
-    def __init__(self, board, size=4):
+    def __init__(self, board=None, size=4, uppercase_u=False):
         self.size = size
         self.nodes = [[{} for i in range(4)] for j in range(4)]
 
+        if not board:
+            board_dice = random.sample(Config.DICE, len(Config.DICE))
+            board = [[random.choice(board_dice.pop()) for __ in range(4)] for _ in range(4)]
+        self.dice = "".join(["".join(row) for row in board])
+
+        q_offset = 0
         for i in range(size):
             for j in range(size):
-                self.nodes[i][j] = Node(board[i][j])
+                die = self.dice[i * 4 + j + q_offset]
+                if die == "Q":
+                    die = "QU" if uppercase_u else "Qu"
+                    q_offset += 1
+                self.nodes[i][j] = Node(die)
 
         for i in range(size):
             canUp = i != 0
