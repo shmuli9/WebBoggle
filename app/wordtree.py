@@ -19,6 +19,7 @@ class WordTree:
     def __init__(self):
         self.children = {}
         self.voided_nodes = []
+        self.voided_words = []
 
     def __str__(self):
         return str(self.children)
@@ -92,8 +93,6 @@ class WordTree:
 
     def _deleteWord(self, st, node: WTNode, parentNode):
         if not st:  # empty string, indicates at end of word
-            # if not node.children:  # node has no child so safe to delete it
-                # del parentNode.children[node.data]
             if node.isWord:
                 node.isWord = False
                 self.voided_nodes.append(node)
@@ -107,17 +106,20 @@ class WordTree:
 
         if chars in node.children:
             self._deleteWord(remaining, node.children[chars], node)
-        if not node.children:  # node has no child so safe to delete it
-            # del parentNode.children[node.data]
+        if not node.children:  # node has no child so safe to void it
             if node.isWord:
                 node.isWord = False
                 self.voided_nodes.append(node)
         return
 
-    def fixVoids(self):
+    # Resets voided nodes and words (words that were set to isWord=False)
+    def resetTree(self):
         for node in self.voided_nodes:
-            node.isWord = True
+            node.void = False
         self.voided_nodes = []
+        for node in self.voided_words:
+            node.isWord = True
+        self.voided_words = []
 
 # wt = WordTree()
 # test_words = ["cart",

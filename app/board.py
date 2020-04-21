@@ -31,10 +31,10 @@ class Node:
         # print(self.possible_transitions())
 
     def possible_transitions(self):
-        trans = []
+        trans = set()
         for t in self.transitions:
             if self.transitions[t] != {}:
-                trans.append(t)
+                trans.add(t)
         return trans
 
 
