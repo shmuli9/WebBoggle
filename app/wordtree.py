@@ -1,3 +1,8 @@
+import time
+
+from app.config import Config
+
+
 class WTNode:
     def __init__(self, string, children: {}):
         self.data = string
@@ -76,7 +81,7 @@ class WordTree:
             chars = "Qu"
             remaining = st[2:]
 
-        if chars not in self.children: #  or (chars in self.children and self.children[chars].void)
+        if chars not in self.children:  # or (chars in self.children and self.children[chars].void)
             return False
         return self._findString(remaining, self.children[chars])
 
@@ -120,6 +125,22 @@ class WordTree:
         for node in self.voided_words:
             node.isWord = True
         self.voided_words = []
+
+
+def build_word_dictionary(min_word_size=3):
+    start = time.time()
+    wt = WordTree()
+
+    with open(Config.DICTIONARY_ADDRESS, encoding="utf8") as file:
+        for word in file.read().split("\n"):
+            wt.add(word)
+    end = time.time()
+    print(f"took {end - start:.6f}s to create the WordTree")
+
+    return wt
+
+
+wt = build_word_dictionary()
 
 # wt = WordTree()
 # test_words = ["cart",
