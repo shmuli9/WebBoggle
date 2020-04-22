@@ -1,9 +1,16 @@
 from app.wordtree import WTNode, wt
 
-moves = {"right", "left", "up", "down", "upRight", "upLeft", "downRight", "downLeft"}
+def duplicates_analysis(valid_words):
+    withD = len(valid_words)
+    # print(sorted(valid_words))
+    withOD = len(set(valid_words))
+    diff = withD - withOD
+    print(f"{diff},{diff / withD * 100: .2f}, {withD}")
+    print("Number of duplicates", diff)
+    print(f"%age duplicates {diff / withD * 100: .2f}%")
 
 
-def generate_valid_words(board):
+def generate_valid_words(board, duplicates=False):
     valid_words = []
 
     boardSize = 4
@@ -13,13 +20,8 @@ def generate_valid_words(board):
             if start_node.letter in wt.children:
                 valid_words += rec_words(start_node, wt.children[start_node.letter], visited={})
 
-    # withD = len(valid_words)
-    # print(sorted(valid_words))
-    # withOD = len(set(valid_words))
-    # diff = withD - withOD
-    # print(f"{diff},{diff / withD * 100: .2f}, {withD}")
-    # print("Number of duplicates", diff)
-    # print(f"%age duplicates {diff / withD * 100: .2f}%")
+    if duplicates:
+        duplicates_analysis(valid_words)
     return valid_words
 
 
