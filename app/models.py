@@ -9,16 +9,7 @@ from app.utils import generate_uuid
 class Node:
     def __init__(self, letter, trans=None):
         self.letter = ""
-        self.transitions = {
-            "up": {},
-            "down": {},
-            "right": {},
-            "left": {},
-            "upRight": {},
-            "upLeft": {},
-            "downRight": {},
-            "downLeft": {}
-        }
+        self.transitions = {}
 
         self.letter = letter
         if trans:
@@ -29,18 +20,7 @@ class Node:
         return f"Letter: {self.letter}"
 
     def add_transitions(self, trans):
-        # print("Adding trans")
-        # print(trans)
-        for t in trans:
-            self.transitions[t] = trans[t]
-        # print(self.possible_transitions())
-
-    def possible_transitions(self):
-        trans = set()
-        for t in self.transitions:
-            if self.transitions[t] != {}:
-                trans.add(t)
-        return trans
+        self.transitions = trans
 
 
 class Board(db.Model):
@@ -78,16 +58,24 @@ class Board(db.Model):
                 canLeft = j != 0
                 canRight = j != 3
 
-                trans = {
-                    "up": self.nodes[i - 1][j] if canUp else {},
-                    "down": self.nodes[i + 1][j] if canDown else {},
-                    "right": self.nodes[i][j + 1] if canRight else {},
-                    "left": self.nodes[i][j - 1] if canLeft else {},
-                    "upRight": self.nodes[i - 1][j + 1] if canUp and canRight else {},
-                    "upLeft": self.nodes[i - 1][j - 1] if canUp and canLeft else {},
-                    "downRight": self.nodes[i + 1][j + 1] if canDown and canRight else {},
-                    "downLeft": self.nodes[i + 1][j - 1] if canDown and canLeft else {}
-                }
+                trans = {}
+
+                if canUp:
+                    trans["up"] = self.nodes[i - 1][j]
+                    if canRight:
+                        trans["upRight"] = self.nodes[i - 1][j + 1]
+                        trans["right"] = self.nodes[i][j + 1]
+                    if canLeft:
+                        trans["upLeft"] = self.nodes[i - 1][j - 1]
+                        trans["left"] = self.nodes[i][j - 1]
+                if canDown:
+                    trans["down"] = self.nodes[i + 1][j]
+                    if canRight:
+                        trans["downRight"] = self.nodes[i + 1][j + 1]
+                        trans["right"] = self.nodes[i][j + 1]
+                    if canLeft:
+                        trans["downLeft"] = self.nodes[i + 1][j - 1]
+                        trans["left"] = self.nodes[i][j - 1]
 
                 self.nodes[i][j].add_transitions(trans)
 

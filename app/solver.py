@@ -30,7 +30,7 @@ def rec_words(node, wt_node: WTNode, word="", visited=None):
     if wt_node.isWord:  # word has been found in wordtree matching the boggle word
         valid_words.append(curr_word)
         wt_node.isWord = False  # mark as non word to prevent duplication
-        wt.voided_words.append(wt_node)
+        wt.voided_words.add(wt_node)
         void_this_node = True
         for child in wt_node.children:
             if not wt_node.children[child].void:
@@ -38,25 +38,22 @@ def rec_words(node, wt_node: WTNode, word="", visited=None):
                 break
         if void_this_node:
             wt_node.void = True  # no unvoided children so void
-            wt.voided_nodes.append(wt_node)  # save to unvoid for reuse of wordtree dictionary
-    legal_trans = node.possible_transitions()
+            wt.voided_nodes.add(wt_node)  # save to unvoid for reuse of wordtree dictionary
 
-    for move in moves.intersection(legal_trans):  # loop through all legal moves
-        next_node = node.transitions[move]
-        if next_node not in visited:
-            next_letter = next_node.letter
-            if next_letter in wt_node.children:
-                next_wt_node = wt_node.children[next_letter]
-                if not next_wt_node.void:
+    for move in node.transitions:  # loop through all legal moves
+        if node.transitions[move] not in visited:
+            next_node = node.transitions[move]
+            if next_node.letter in wt_node.children:
+                if not wt_node.children[next_node.letter].void:
                     new_visited = set(visited)  # copy values to new variable
                     new_visited.add(node)  # add current node to visited
-                    valid_words.extend(
-                        rec_words(next_node, next_wt_node, curr_word, new_visited))
+                    valid_words.extend(rec_words(next_node, wt_node.children[next_node.letter], curr_word, new_visited))
 
     # check if wt node has unvoided children, if it does not, then void the node
     for child in wt_node.children:
         if not wt_node.children[child].void:
             return valid_words  # early return, as one or more children are not void
     wt_node.void = True  # no unvoided children so void
-    wt.voided_nodes.append(wt_node)
+    wt.voided_nodes.add(wt_node)
+
     return valid_words
