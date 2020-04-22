@@ -130,6 +130,7 @@ def test_suite(num_runs=10, duplicate_analysis=False):
     dice = ["QuEENPOCIHBIEGKLS", "LOPGPOCIHBIEGKLS", "EDRQuHIECTSAZNLSE"]
 
     run_times = []
+    interesting_dice = []
     for run in range(num_runs):
         wt.resetTree()
         # d = dice[0] if run % 2 == 0 else dice[1]
@@ -137,9 +138,13 @@ def test_suite(num_runs=10, duplicate_analysis=False):
         start = time.time()
         word_list = generate_valid_words(Board(d), duplicate_analysis)
         end = time.time()
-        del word_list
+
+        time_taken = end - start
+
+        if time_taken < 0.00000111111111111111:
+            interesting_dice.append(board.dice)
         run_times.append(end - start)
-        del start, end
+        del word_list, start, end, board
 
     precision = 6
     print(
@@ -147,13 +152,13 @@ def test_suite(num_runs=10, duplicate_analysis=False):
     print(f"max run time was {max(run_times) * 1000:.{precision}f}ms")
     print(f"min run time was {min(run_times) * 1000}ms")
     print(f"delta (max - min) run time was {(max(run_times) - min(run_times)) * 1000:.{precision}f}ms")
+    print(f"Interesting (sub 1/1000 of a ms): {interesting_dice}")
     print(run_times[:1000])
 
 
 if not verify_algo(True):
     print("❌ - Algo failed to run successfully on Preconfigured board ")
 else:
-    pass
     print("Algo verified, running test suite")
     # test_suite(10, True)
     test_suite(10000)
