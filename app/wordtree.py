@@ -127,7 +127,7 @@ class WordTree:
         self.voided_words = []
 
 
-def build_word_dictionary(min_word_size=3):
+def build_wordtree(min_word_size=3):
     start = time.time()
     wt = WordTree()
 
@@ -140,7 +140,7 @@ def build_word_dictionary(min_word_size=3):
     return wt
 
 
-wt = build_word_dictionary()
+wt = build_wordtree()
 
 # wt = WordTree()
 # test_words = ["cart",

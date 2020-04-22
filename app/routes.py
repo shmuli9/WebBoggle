@@ -34,7 +34,8 @@ def generate_board():
     db.session.commit()
 
     words = sorted(generate_valid_words(boggle_board))
-    Thread(target=async_reset_wt()).start()
+    wt.resetTree()
+    # Thread(target=async_reset_wt()).start()
 
     return jsonify(
         {"game_id": boggle_board.id, "board": board, "words": words}), 200
@@ -48,7 +49,8 @@ def boggle_board(game_id):
         return redirect(url_for("routes.index"))
 
     words = sorted(generate_valid_words(Board(board.dice)))
-    Thread(target=async_reset_wt()).start()
+    wt.resetTree()
+    # Thread(target=async_reset_wt()).start()
 
     return render_template("index.html", game_id=board.id, dice=f"{board.generate_board()}",
                            words=words)
