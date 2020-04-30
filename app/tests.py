@@ -120,7 +120,7 @@ def verify_algo(strict=False):
     return False
 
 
-def test_suite(num_runs=10, duplicate_analysis=False):
+def test_suite(num_runs=10, do_duplicate_analysis=False):
     def avg(numbers):
         total = 0
         for el in numbers:
@@ -136,7 +136,8 @@ def test_suite(num_runs=10, duplicate_analysis=False):
         # d = dice[0] if run % 2 == 0 else dice[1]
         d = ""
         start = time.time()
-        word_list = generate_valid_words(Board(d), duplicate_analysis)
+        board = Board(d)
+        word_list = generate_valid_words(board, do_duplicate_analysis)
         end = time.time()
 
         time_taken = end - start
@@ -153,7 +154,7 @@ def test_suite(num_runs=10, duplicate_analysis=False):
     print(f"min run time was {min(run_times) * 1000}ms")
     print(f"delta (max - min) run time was {(max(run_times) - min(run_times)) * 1000:.{precision}f}ms")
     print(f"Interesting (sub 1/1000 of a ms): {interesting_dice}")
-    print(run_times[:1000])
+    # print(run_times[:1000])
 
 
 if not verify_algo(True):
@@ -161,16 +162,16 @@ if not verify_algo(True):
 else:
     print("Algo verified, running test suite")
     # test_suite(10, True)
-    test_suite(10000)
+    test_suite(100)
 
 
-def checkWordTree(wordList, wordTree):
-    print("checking wordtree")
-    missed_words = []
-    for word in wordList:
-        if not wordTree.findString(word):
-            missed_words.append(word)
-    print("finished checking wordtree")
-    print(len(missed_words), " words were skipped:\n", missed_words)
+# def checkWordTree(wordList, wordTree):
+#     print("checking wordtree")
+#     missed_words = []
+#     for word in wordList:
+#         if not wordTree.findString(word):
+#             missed_words.append(word)
+#     print("finished checking wordtree")
+#     print(len(missed_words), " words were skipped:\n", missed_words)
 
 # checkWordTree(words, wt)

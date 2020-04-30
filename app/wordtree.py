@@ -10,6 +10,12 @@ class WTNode:
         self.void = False
         self.children = {}
 
+    def __repr__(self):
+        repr = f"{{{self.data}: ["
+        for child in self.children:
+            repr += child
+        return repr + "]}}"
+
 
 class WordTree:
     def __init__(self):

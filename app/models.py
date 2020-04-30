@@ -17,7 +17,10 @@ class Node:
                 self.transitions[t] = trans[t]
 
     def __str__(self):
-        return f"Letter: {self.letter}"
+        return self.letter
+
+    def __repr__(self):
+        return self.letter
 
     def add_transitions(self, trans):
         self.transitions = trans
@@ -47,7 +50,7 @@ class Board(db.Model):
             for j in range(size):
                 die = self.dice[i * 4 + j + q_offset]
                 if die == "Q":
-                    die = "QU" if uppercase_u else "Qu"
+                    die = "QU"
                     q_offset += 1
                 self.nodes[i][j] = Node(die)
 
