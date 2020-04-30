@@ -117,38 +117,6 @@ class WordTree:
             return False
         return self._findString(remaining, self.children[chars])
 
-    def deleteWord(self, st):
-        chars = st[0]
-        remaining = st[1:]
-        if chars == "Q":
-            chars = "Qu"
-            remaining = st[2:]
-
-        if chars not in self.children:
-            return
-        return self._deleteWord(remaining, self.children[chars], self)
-
-    def _deleteWord(self, st, node: WTNode, parentNode):
-        if not st:  # empty string, indicates at end of word
-            if node.isWord:
-                node.isWord = False
-                self.voided_nodes.append(node)
-            return
-
-        chars = st[0]
-        remaining = st[1:]
-        if chars == "Q":
-            chars = "Qu"
-            remaining = st[2:]
-
-        if chars in node.children:
-            self._deleteWord(remaining, node.children[chars], node)
-        if not node.children:  # node has no child so safe to void it
-            if node.isWord:
-                node.isWord = False
-                self.voided_nodes.append(node)
-        return
-
     # Resets voided nodes and words (words that were set to isWord=False)
     def resetTree(self):
         for node in self.voided_nodes:
