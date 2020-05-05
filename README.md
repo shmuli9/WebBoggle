@@ -31,6 +31,6 @@ python app.py
 
 ### Acknowledgments:
 
-  - Segments of my code were forked from or modified based on, code written by Daniel Samet
-  - The web app, including HTML, and backend code, is almost entirely the work of Daniel Samet (thanks!)
+  - Segments of my code were forked from or modified based on, code written by [Daniel Samet](https://github.com/CouchMaster789)
+  - The web app, including HTML, and backend code, is almost entirely the work of [Daniel Samet](https://github.com/CouchMaster789) (thanks!)
   - Thanks Dr Arman Khouzani for the Linux install scripts! (I was using an IDE, and overlooked this 😯)
