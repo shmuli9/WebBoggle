@@ -1,5 +1,5 @@
 import time
-
+import io
 from app.config import Config
 
 
@@ -10,11 +10,11 @@ class WTNode:
         self.void = False
         self.children = {}
 
-    def __repr__(self):
-        repr = f"{{{self.data}: ["
-        for child in self.children:
-            repr += child
-        return repr + "]}}"
+    # def __repr__(self):
+    #     repr = f"{{{self.data}: ["
+    #     for child in self.children:
+    #         repr += child
+    #     return repr + "]}}"
 
 
 class WordTree:
@@ -125,7 +125,7 @@ class WordTree:
                         if letter == "Q":
                             letter = "QU"
                             letter_index += 1
-                        letter_index += 1   # Increment letter_index (also used as loop counter)
+                        letter_index += 1  # Increment letter_index (also used as loop counter)
 
                         if letter not in node.children:  # If no child node exists for next letter
                             node.children[letter] = WTNode(letter)  # Create new node with next letter

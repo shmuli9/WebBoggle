@@ -31,7 +31,7 @@ class Board(db.Model):
 
     id = db.Column(db.String(6), primary_key=True)
 
-    dice = db.Column(db.String(17))  # TODO: consider a more normalised form since "Qu" will not always be present
+    dice = db.Column(db.String(17))
 
     nodes = [[]]
 
