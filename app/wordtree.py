@@ -102,7 +102,10 @@ class WordTree:
             node.isWord = True
         self.voided_words = set()
 
-    def build_wordtree(self, min_word_size=3):
+    def build_wordtree(self, min_word_size=None):
+        if min_word_size is None:
+            min_word_size = Config.MIN_WORD_SIZE
+
         start = time.time()
 
         with open(Config.DICTIONARY_ADDRESS, encoding="utf8") as file:
@@ -110,7 +113,7 @@ class WordTree:
                 # originally self.add function was called here 290,000+ times per application run
                 # for perf, function code was added here
                 length = len(word)
-                if length > min_word_size - 1:
+                if length >= min_word_size:
                     letter = word[0]
                     letter_index = 1
                     if letter == "Q":  # Q replacement, as QU is what appears on Boggle dice
@@ -132,7 +135,7 @@ class WordTree:
                         node = node.children[letter]  # Move to next node
                     node.isWord = True  # Set isWord, indicating end of word in WordTree
         end = time.time()
-        print(f"took {end - start:.6f}s to create the WordTree")
+        print(f"WordTree created in {end - start:.{Config.PRECISION}f}s")
 
         return self
 

@@ -3,6 +3,7 @@ import time
 from app.models import Board
 from app.solver import generate_valid_words
 from app.wordtree import wt
+from app.config import Config
 
 
 def run_generator(board):
@@ -10,11 +11,12 @@ def run_generator(board):
     word_list = generate_valid_words(board)
     end = time.time()
 
-    print(f"{len(word_list)} words were generated in {(end - start) * 1000:.6f}ms")
+    print(f"\t{len(word_list)} words were generated in {(end - start) * 1000:.{Config.PRECISION}f}ms")
     return sorted(word_list)
 
 
 def verify_algo(strict=False):
+    print("\nAttempting to verify algo...")
     if not strict:
         print("\nPreconfigured board:")
         print("-" * 20)
@@ -109,7 +111,6 @@ def verify_algo(strict=False):
                              'SEL', 'SIB', 'SIC', 'SICE', 'SIK', 'SILE', 'SILK', 'SLICE']}
 
     if not strict:
-        # run_generator(Board("QuEENPOCIHBIEGKLS"))
         print("\nRandom boards:")
         print("-" * 20)
         for _ in range(1):
@@ -121,11 +122,15 @@ def verify_algo(strict=False):
 
 
 def test_suite(num_runs=10, do_duplicate_analysis=False):
-    def avg(numbers):
-        total = 0
-        for el in numbers:
-            total += el
-        return total / len(numbers)
+    """
+    Test suite to drill down and time individual runs of the algorithm to get a closer look at the core algorithm
+    excluding overhead. Also performs some basic analysis of how run times are distributed
+
+    :param num_runs: number of test runs to do
+    :param do_duplicate_analysis:
+    :return:
+    """
+    print("\nStarting inidividual test suite...")
 
     dice = ["QuEENPOCIHBIEGKLS", "LOPGPOCIHBIEGKLS", "EDRQuHIECTSAZNLSE"]
 
@@ -133,8 +138,8 @@ def test_suite(num_runs=10, do_duplicate_analysis=False):
     interesting_dice = []
     for run in range(num_runs):
         wt.resetTree()
-        # d = dice[0] if run % 2 == 0 else dice[1]
-        d = ""
+        # d = dice[0] if run % 2 == 0 else dice[1]  # use this code to test against predefined dice (possibly a better benchmark...)
+        d = ""  # empty string will result in a random boards being generated
         start = time.time()
         board = Board(d)
         word_list = generate_valid_words(board, do_duplicate_analysis)
@@ -143,35 +148,67 @@ def test_suite(num_runs=10, do_duplicate_analysis=False):
         time_taken = end - start
 
         if time_taken < 0.00000111111111111111:
-            interesting_dice.append(board.dice)
+            """
+            the fact that the time is so low is not due to a super efficient algo, rather it is a quirk in the 
+            scheduler (and in any scheduler) and is to be expected, but doesnt really matter
+            """
+            interesting_dice.append((board.dice, time_taken))
+
         run_times.append(end - start)
         del word_list, start, end, board
 
-    precision = 6
     print(
-        f"average run time over {num_runs} random boards was: {avg(run_times) * 1000:.{precision}f}ms (total:{sum(run_times):.{precision}f}s)")
-    print(f"max run time was {max(run_times) * 1000:.{precision}f}ms")
-    print(f"min run time was {min(run_times) * 1000}ms")
-    print(f"delta (max - min) run time was {(max(run_times) - min(run_times)) * 1000:.{precision}f}ms")
-    print(f"Interesting (sub 1/1000 of a ms): {interesting_dice}")
-    # print(run_times[:1000])
+        f"\tAverage run time over {num_runs} random boards was: {(sum(run_times) / len(run_times)) * 1000:.{Config.PRECISION}f}ms (total:{sum(run_times):.{Config.PRECISION}f}s)")
+    print(f"\t\tMaximum run time was {max(run_times) * 1000:.{Config.PRECISION}f}ms")
+    print(f"\t\tMinimum run time was {min(run_times) * 1000}ms")
+
+
+def overall_test(number_of_runs):
+    """
+    Run the algo `number_of_runs` times to see how the application works as a whole
+    :return:
+    """
+    print("\nStarting overall test...")
+
+    start = time.time()
+
+    dice = ["QuEENPOCIHBIEGKLS", "LOPGPOCIHBIEGKLS", "EDRQuHIECTSAZNLSE"]
+
+    for run in range(number_of_runs):
+        wt.resetTree()
+        # d = dice[0] if run % 2 == 0 else dice[1]  # use this code to test against predefined dice (possibly a better benchmark...)
+        d = ""  # empty string will result in a random boards being generated
+
+        board = Board(d)
+        word_list = generate_valid_words(board)
+    end = time.time()
+
+    print(f"\tAverage across {number_of_runs} runs: {((end - start) * 1000) / number_of_runs:.{Config.PRECISION}f}ms")
+
+
+def checkWordTree(wordList, wordTree):
+    """
+    A test to ensure that WordTree is being created correctly
+    """
+
+    print("checking wordtree")
+    missed_words = []
+    for word in wordList:
+        if not wordTree.findString(word):
+            missed_words.append(word)
+
+    print("finished checking wordtree")
+    print(len(missed_words), " words were skipped:\n", missed_words)
 
 
 if not verify_algo(True):
-    print("❌ - Algo failed to run successfully on Preconfigured board ")
+    print("❌ - Algo verification failed to run successfully on Preconfigured board")
 else:
-    print("Algo verified, running test suite")
-    # test_suite(10, True)
-    test_suite(100)
+    runs = 1000
 
+    print(f"Algo verified, running test suite(s) with {runs} runs:")
 
-# def checkWordTree(wordList, wordTree):
-#     print("checking wordtree")
-#     missed_words = []
-#     for word in wordList:
-#         if not wordTree.findString(word):
-#             missed_words.append(word)
-#     print("finished checking wordtree")
-#     print(len(missed_words), " words were skipped:\n", missed_words)
+    test_suite(runs)
+    overall_test(runs)
 
-# checkWordTree(words, wt)
+    print("\nFinished test suite(s)")

@@ -11,6 +11,8 @@ class Config:
 
     DICTIONARY_ADDRESS = os.path.join(basedir, "words_alpha_collins.txt")
     MIN_WORD_SIZE = 3
+    PRECISION = 6
+
     DICE = [
         ['R', 'I', 'F', 'O', 'B', 'X'],
         ['I', 'F', 'E', 'H', 'E', 'Y'],

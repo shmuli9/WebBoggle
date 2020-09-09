@@ -100,7 +100,7 @@ class Board(db.Model):
 
         return table
 
-    def generate_words(self, min_word_size=3):
+    def generate_words(self):
         return generate_valid_words(self)
 
     # def __str__(self):
