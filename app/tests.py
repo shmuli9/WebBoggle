@@ -15,7 +15,12 @@ def run_generator(board):
     return sorted(word_list)
 
 
-def verify_algo(strict=False):
+def verify_algo():
+    """
+    Regression test to ensure that the algorithm is working
+    :param strict:
+    :return:
+    """
     print("\nAttempting to verify algo...")
     if not strict:
         print("\nPreconfigured board:")
@@ -110,15 +115,7 @@ def verify_algo(strict=False):
                              'SEIL',
                              'SEL', 'SIB', 'SIC', 'SICE', 'SIK', 'SILE', 'SILK', 'SLICE']}
 
-    if not strict:
-        print("\nRandom boards:")
-        print("-" * 20)
-        for _ in range(1):
-            run_generator(Board())
-
-    if output == expected_output[test_dice]:
-        return True
-    return False
+    return output == expected_output[test_dice]
 
 
 def test_suite(num_runs=10, do_duplicate_analysis=False):
@@ -137,7 +134,7 @@ def test_suite(num_runs=10, do_duplicate_analysis=False):
     run_times = []
     interesting_dice = []
     for run in range(num_runs):
-        wt.resetTree()
+        wt.reset_tree()
         # d = dice[0] if run % 2 == 0 else dice[1]  # use this code to test against predefined dice (possibly a better benchmark...)
         d = ""  # empty string will result in a random boards being generated
         start = time.time()
@@ -175,7 +172,7 @@ def overall_test(number_of_runs):
     dice = ["QuEENPOCIHBIEGKLS", "LOPGPOCIHBIEGKLS", "EDRQuHIECTSAZNLSE"]
 
     for run in range(number_of_runs):
-        wt.resetTree()
+        wt.reset_tree()
         # d = dice[0] if run % 2 == 0 else dice[1]  # use this code to test against predefined dice (possibly a better benchmark...)
         d = ""  # empty string will result in a random boards being generated
 
@@ -186,26 +183,30 @@ def overall_test(number_of_runs):
     print(f"\tAverage across {number_of_runs} runs: {((end - start) * 1000) / number_of_runs:.{Config.PRECISION}f}ms")
 
 
-def checkWordTree(wordList, wordTree):
+def check_wordtree(wordTree):
     """
-    A test to ensure that WordTree is being created correctly
+    Regression test to test to ensure that WordTree is working correctly
     """
 
-    print("checking wordtree")
+    print("Checking wordtree")
+    wordTree.reset_tree()
     missed_words = []
-    for word in wordList:
-        if not wordTree.findString(word):
-            missed_words.append(word)
 
-    print("finished checking wordtree")
-    print(len(missed_words), " words were skipped:\n", missed_words)
+    with open(Config.DICTIONARY_ADDRESS, encoding="utf8") as file:
+        for word in file.read().split("\n"):
+            if not wordTree.find(word):
+                missed_words.append(word)
+
+    print("Finished checking wordtree")
+    return not (len(missed_words) > 0 and not print(len(missed_words), " words were skipped:\n", missed_words[:100]))
 
 
-if not verify_algo(True):
+if not check_wordtree(wt):
+    print("❌ - WordTree verification failed")
+elif not verify_algo():
     print("❌ - Algo verification failed to run successfully on Preconfigured board")
 else:
-    runs = 1000
-
+    runs = 10000
     print(f"Algo verified, running test suite(s) with {runs} runs:")
 
     test_suite(runs)

@@ -12,7 +12,7 @@ from app.wordtree import wt
 bp = Blueprint("routes", __name__)
 
 def async_reset_wt():
-    wt.resetTree()
+    wt.reset_tree()
 
 
 @bp.route('/')
@@ -34,7 +34,7 @@ def generate_board():
     db.session.commit()
 
     words = sorted(generate_valid_words(boggle_board))
-    wt.resetTree()
+    wt.reset_tree()
     # Thread(target=async_reset_wt()).start()
 
     return jsonify(
@@ -49,7 +49,7 @@ def boggle_board(game_id):
         return redirect(url_for("routes.index"))
 
     words = sorted(generate_valid_words(Board(board.dice)))
-    wt.resetTree()
+    wt.reset_tree()
     # Thread(target=async_reset_wt()).start()
 
     return render_template("index.html", game_id=board.id, dice=f"{board.generate_board()}",

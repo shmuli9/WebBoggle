@@ -18,14 +18,14 @@ def generate_valid_words(board, duplicates=False):
         for j in range(boardSize):
             start_node = board.nodes[i][j]
             if start_node.letter in wt.children:
-                valid_words += rec_words(start_node, wt.children[start_node.letter], visited={})
+                valid_words += find_words(start_node, wt.children[start_node.letter], visited={})
 
     if duplicates:
         duplicates_analysis(valid_words)
     return valid_words
 
 
-def rec_words(node, wt_node: WTNode, word="", visited=None):
+def find_words(node, wt_node: WTNode, word="", visited=None):
     valid_words = []
     curr_word = word + wt_node.data
 
@@ -49,7 +49,7 @@ def rec_words(node, wt_node: WTNode, word="", visited=None):
                 if not wt_node.children[next_node.letter].void:
                     new_visited = set(visited)  # copy values to new variable
                     new_visited.add(node)  # add current node to visited
-                    valid_words.extend(rec_words(next_node, wt_node.children[next_node.letter], curr_word, new_visited))
+                    valid_words.extend(find_words(next_node, wt_node.children[next_node.letter], curr_word, new_visited))
 
     # check if wt node has unvoided children, if it does not, then void the node
     for child in wt_node.children:
