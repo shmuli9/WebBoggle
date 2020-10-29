@@ -15,6 +15,31 @@ Over 10,000 randomly generated boards, the average speed was 1.67ms, max 7.999ms
 On my recently purchased laptop (CPU: R7-4800u, Nvme SSD, RAM: 16GB) 10,000 randomly generated boards take around 1.45ms 
 (max: 6.000ms, min: 0.0ms)
 
+### Optimisations
+
+I implemented several optimisations in my code. I aim to list and explain them all here.
+
+1.  Once a word is found, the final node in the word has its isWord property is set to False. This operation results in 
+"voided words", which are tracked so that they can be reset for every new board search
+    
+    **Why?** This optimisation is done to prevent words being "found" again and producing dupicates. This optimisation 
+    does away with the need for the duplicates_analysis function (found in solver.py)
+
+2.  Once a word is found I try to determine if the node should be voided (this is different to the isWord property) by 
+looking at all children of the the final node in the word, and if there are no children or all children are themselves 
+void, then this node is voided as well. This operation results in "voided nodes", which are tracked so that they can be 
+reset for every new board search
+
+    **Why?** This optimisation is done to eliminate nodes that aren't words and don't lead to words from later searches 
+    on the same board, potentially saving time going down this path
+    
+3.  Similar to optimisation #2, when leaving a node, I check if the node has no children or all it's children are 
+themselves void, in which case this node is voided. Similarly to #2, voided nodes are tracked so that they can be reset 
+for every new board search
+
+    **Why?** This optimisation is done to eliminate nodes that aren't words and don't lead to words from later searches 
+    on the same board potentially saving time going down this path
+
 ### Run
 On Windows: 
 ```
