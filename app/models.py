@@ -13,8 +13,7 @@ class Node:
 
         self.letter = letter
         if trans:
-            for t in trans:
-                self.transitions[t] = trans[t]
+            self.transitions = trans
 
     def __str__(self):
         return self.letter
@@ -35,7 +34,7 @@ class Board(db.Model):
 
     nodes = [[]]
 
-    def __init__(self, board=None, size=4, uppercase_u=False):
+    def __init__(self, board=None, size=4):
         self.id = generate_uuid()
         self.size = size
         self.nodes = [[{} for i in range(4)] for j in range(4)]
@@ -114,7 +113,6 @@ class Board(db.Model):
     #     return out
 
     def print_board(self):
-        # "➡ ⬅ ⬆ ⬇ ↗ ↘ ↙ ↖"
         row = ""
         for i in range(self.size):
             line1 = ""
