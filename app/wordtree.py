@@ -57,6 +57,13 @@ class WordTree:
             node.isWord = True  # Set isWord, indicating end of word in WordTree
 
     def find(self, word):
+        """
+        Search for a word in the tree
+        Really only used to confirm that WordTree is behaving as expected
+
+        :param word:
+        :return:
+        """
         length = len(word)
         if length >= Config.MIN_WORD_SIZE:
             node = self
@@ -84,7 +91,9 @@ class WordTree:
         """
         THIS FUNCTION DOES NOT DELETE WORDS OR NODES FROM THE WORDTREE
 
-        Resets VOIDed nodes and words (words that were set to isWord=False for optimisation purposes in )
+        Resets VOIDed nodes (nodes that were set to VOID for optimisation purposes) and words (words that were set to
+        isWord=False for optimisation purposes)
+
         :return:
         """
         for node in self.voided_nodes:
@@ -96,6 +105,13 @@ class WordTree:
         self.voided_words = set()
 
     def build_wordtree(self, min_word_size=None):
+        """
+        Initialises the WordTree with the provided word list, adding all the words that meet the min word length, to the
+        tree
+
+        :param min_word_size: set what the minimum word size should be, this will override the config
+        :return:
+        """
         if min_word_size is not None:
             Config.MIN_WORD_SIZE = min_word_size
 
