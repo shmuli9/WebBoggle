@@ -22,9 +22,6 @@ def verify_algo():
     :return:
     """
     print("\nAttempting to verify algo...")
-    if not strict:
-        print("\nPreconfigured board:")
-        print("-" * 20)
     test_dice = "LOPGPOCIHBIEGKLS"
     # "EDRQuHIECTSAZNLSE"
     output = run_generator(Board(test_dice))
