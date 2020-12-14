@@ -1,7 +1,6 @@
 import random
 
 from flask import render_template, jsonify, redirect, url_for, Blueprint
-from threading import Thread
 
 from app import db
 from app.config import Config
@@ -10,6 +9,7 @@ from app.solver import generate_valid_words
 from app.wordtree import wt
 
 bp = Blueprint("routes", __name__)
+
 
 def async_reset_wt():
     wt.reset_tree()
