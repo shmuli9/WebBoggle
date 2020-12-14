@@ -83,7 +83,8 @@ class Solver:
         return not (len(missed_words) > 0 and not print(len(missed_words), " words were skipped:\n",
                                                         missed_words[:100]))
 
-    def duplicates_analysis(self, valid_words):
+    @staticmethod
+    def duplicates_analysis(valid_words):
         """
         Deprecated as current algorithm can't produce duplicate words
         :param valid_words:
