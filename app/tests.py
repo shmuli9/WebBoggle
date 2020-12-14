@@ -39,10 +39,6 @@ class Tests:
         :return:
         """
         print("\nAttempting to verify algo...")
-        test_dice = "LOPGPOCIHBIEGKLS"
-        # "EDRQuHIECTSAZNLSE"
-        output = self.run_generator(Board(test_dice))
-        # print(output)
 
         expected_output = {
             "EDRQuHIECTSAZNLSE": ['ACE', 'ACED', 'ACER', 'ACES', 'ACQUEST', 'ACRE', 'ACRED', 'ACRES', 'ACRID',
@@ -146,7 +142,12 @@ class Tests:
 
         success = [False for _ in expected_output]
 
-        return output == expected_output[test_dice]
+        i = 0
+        for dice in expected_output.keys():
+            success[i] = self.run_generator(Board(dice)) == expected_output[dice]
+            i += 1
+
+        return min(success)
 
     def test_suite(self, num_runs=None, do_duplicate_analysis=False):
         """
@@ -175,7 +176,7 @@ class Tests:
             if time_taken < 0.00000111111111111111:
                 """
                 the fact that the time is so low is not due to a super efficient algo, rather it is a quirk in the 
-                scheduler (and in any scheduler) and is to be expected, but doesnt really matter
+                scheduler and is to be expected, but doesnt really matter
                 """
                 interesting_dice.append((board.dice, time_taken))
 
