@@ -2,9 +2,8 @@ import random
 
 from app import db
 from app.config import Config
-from app.solver import generate_valid_words
+from app.solver import solver
 from app.utils import generate_uuid
-
 
 class Node:
     def __init__(self, letter, trans=None):
@@ -100,7 +99,7 @@ class Board(db.Model):
         return table
 
     def generate_words(self):
-        return generate_valid_words(self)
+        return solver.generate_words(self)
 
     # def __str__(self):
     #     out = ""
