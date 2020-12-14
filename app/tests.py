@@ -45,7 +45,7 @@ class Tests:
         # print(output)
 
         expected_output = {
-            "EDRQuHIECTSAZNLSE": ['ACE', 'ACED', 'ACER', 'ACES', 'ACQuEST', 'ACRE', 'ACRED', 'ACRES', 'ACRID',
+            "EDRQuHIECTSAZNLSE": ['ACE', 'ACED', 'ACER', 'ACES', 'ACQUEST', 'ACRE', 'ACRED', 'ACRES', 'ACRID',
                                   'ACRIDEST',
                                   'AERIE', 'AERIED',
                                   'AESIR', 'AID', 'AIDE', 'AIDER', 'AIDES', 'AIR', 'AIRED', 'AIREST', 'AIS', 'AIT',
@@ -78,14 +78,14 @@ class Tests:
                                   'IDEAL', 'IDEALS',
                                   'IDEAS',
                                   'IDES', 'IRE', 'IRED', 'IRES', 'ISH', 'ITS', 'LAC', 'LACE', 'LACED', 'LACER', 'LACES',
-                                  'LACQuER', 'LAER',
+                                  'LACQUER', 'LAER',
                                   'LAESIE',
                                   'LAID', 'LAIR', 'LAIRD', 'LAIRED', 'LAISSE', 'LAITH', 'LAS', 'LASE', 'LASED', 'LASER',
                                   'LASH', 'LASHED',
                                   'LASS',
-                                  'LASSI', 'LASSIE', 'LAST', 'LAZE', 'LAZED', 'LAZES', 'NTH', 'QuERIED', 'QuERIST',
-                                  'QuEST',
-                                  'QuEZAL', 'QuEZALS',
+                                  'LASSI', 'LASSIE', 'LAST', 'LAZE', 'LAZED', 'LAZES', 'NTH', 'QUERIED', 'QUERIST',
+                                  'QUEST',
+                                  'QUEZAL', 'QUEZALS',
                                   'REAIS', 'REAL', 'REALS', 'REALTIE', 'REAST', 'REC', 'RECAL', 'RECALS', 'RECAST',
                                   'RED',
                                   'REDE', 'REDIA',
@@ -95,8 +95,8 @@ class Tests:
                                   'RESIDE', 'RESIT',
                                   'REST',
                                   'REZ', 'REZES', 'RIA', 'RIAL', 'RIALS', 'RIAS', 'RID', 'RIDE', 'RIDES', 'RISE', 'RIT',
-                                  'RITS', 'SAC', 'SACQuE',
-                                  'SACQuES', 'SACRED', 'SACRIST', 'SAE', 'SAI', 'SAID', 'SAIDEST', 'SAIR', 'SAIRED',
+                                  'RITS', 'SAC', 'SACQUE',
+                                  'SACQUES', 'SACRED', 'SACRIST', 'SAE', 'SAI', 'SAID', 'SAIDEST', 'SAIR', 'SAIRED',
                                   'SAIREST', 'SAIS', 'SAIST',
                                   'SAITH', 'SAITHE', 'SAITHS', 'SAL', 'SALS', 'SALSE', 'SALT', 'SALTIE', 'SALTIER',
                                   'SALTIES', 'SALTIRE',
@@ -141,7 +141,10 @@ class Tests:
                                  'POISE', 'POL', 'POLO', 'POO', 'POOH', 'POOL', 'POOP', 'POP', 'SEC', 'SECO', 'SEI',
                                  'SEIK',
                                  'SEIL',
-                                 'SEL', 'SIB', 'SIC', 'SICE', 'SIK', 'SILE', 'SILK', 'SLICE']}
+                                 'SEL', 'SIB', 'SIC', 'SICE', 'SIK', 'SILE', 'SILK', 'SLICE']
+        }
+
+        success = [False for _ in expected_output]
 
         return output == expected_output[test_dice]
 
