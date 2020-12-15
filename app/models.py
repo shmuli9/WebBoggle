@@ -5,6 +5,7 @@ from app.config import Config
 from app.solver import solver
 from app.utils import generate_uuid
 
+
 class Node:
     def __init__(self, letter, trans=None):
         self.letter = ""
@@ -29,35 +30,35 @@ class Board(db.Model):
 
     id = db.Column(db.String(6), primary_key=True)
 
-    dice = db.Column(db.String(17))
+    dice = db.Column(db.String(17))  # not safe for larger boggle boards...
 
     nodes = [[]]
 
-    def __init__(self, board=None, size=4):
+    def __init__(self, board=None):
         self.id = generate_uuid()
-        self.size = size
-        self.nodes = [[{} for i in range(4)] for j in range(4)]
+        self.size = Config.BOGGLE_BOARD_DIMENSION
+        self.nodes = [[{} for i in range(self.size)] for j in range(self.size)]
 
         if not board:
             board_dice = random.sample(Config.DICE, len(Config.DICE))
-            board = [[random.choice(board_dice.pop()) for __ in range(4)] for _ in range(4)]
+            board = [[random.choice(board_dice.pop()) for __ in range(self.size)] for _ in range(self.size)]
         self.dice = "".join(["".join(row) for row in board])
 
         q_offset = 0
-        for i in range(size):
-            for j in range(size):
-                die = self.dice[i * 4 + j + q_offset]
+        for i in range(self.size):
+            for j in range(self.size):
+                die = self.dice[i * self.size + j + q_offset]
                 if die == "Q":
                     die = "QU"
                     q_offset += 1
                 self.nodes[i][j] = Node(die)
 
-        for i in range(size):
+        for i in range(self.size):
             canUp = i != 0
-            canDown = i != 3
-            for j in range(size):
+            canDown = i != self.size - 1
+            for j in range(self.size):
                 canLeft = j != 0
-                canRight = j != 3
+                canRight = j != self.size - 1
 
                 trans = {}
 
@@ -86,10 +87,10 @@ class Board(db.Model):
         table = []
         q_offset = 0
 
-        for i in range(4):
+        for i in range(self.size):
             row = []
-            for col in range(4):
-                die = self.dice[i * 4 + col + q_offset]
+            for col in range(self.size):
+                die = self.dice[i * self.size + col + q_offset]
                 if die == "Q":
                     die = "QU" if uppercase_u else "Qu"
                     q_offset += 1

@@ -4,15 +4,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URI") or 'sqlite:///' + os.path.join(basedir, 'app.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-    MIGRATIONS_DIR = "migrations"
-
+    # Solver parameters
     DICTIONARY_ADDRESS = os.path.join(basedir, "words_alpha_collins.txt")
     MIN_WORD_SIZE = 3
     PRECISION = 6
 
+    # Boggle Board parameters
+    BOGGLE_BOARD_DIMENSION = 4  # if changed, DICE also needs to be updated to have n**2 dice
     DICE = [
         ['R', 'I', 'F', 'O', 'B', 'X'],
         ['I', 'F', 'E', 'H', 'E', 'Y'],
@@ -31,3 +29,9 @@ class Config:
         ['U', 'W', 'I', 'L', 'R', 'G'],
         ['P', 'A', 'C', 'E', 'M', 'D'],
     ]
+
+    # Flask parameters
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URI") or 'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    MIGRATIONS_DIR = "migrations"

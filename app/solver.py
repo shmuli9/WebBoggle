@@ -1,4 +1,3 @@
-from app.config import Config
 from app.wordtree import WTNode, wt
 
 
@@ -9,9 +8,8 @@ class Solver:
     def generate_words(self, board, duplicates=False):
         valid_words = []
 
-        boardSize = 4
-        for i in range(boardSize):
-            for j in range(boardSize):
+        for i in range(board.size):
+            for j in range(board.size):
                 start_node = board.nodes[i][j]
 
                 valid_words += self.find_words(start_node, wt.children[start_node.letter], visited={})
