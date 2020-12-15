@@ -5,7 +5,6 @@ from app.wordtree import WTNode, wt
 class Solver:
     def __init__(self):
         self.wt = wt
-        self.check_wordtree()
 
     def generate_words(self, board, duplicates=False):
         valid_words = []
@@ -65,24 +64,6 @@ class Solver:
 
         return valid_words
 
-    def check_wordtree(self):
-        """
-        Regression test to test to ensure that WordTree is working correctly
-        """
-
-        print("Checking wordtree")
-        self.wt.reset_tree()
-        missed_words = []
-
-        with open(Config.DICTIONARY_ADDRESS, encoding="utf8") as file:
-            for word in file.read().split("\n"):
-                if not self.wt.find(word):
-                    missed_words.append(word)
-
-        print("Finished checking wordtree")
-        return not (len(missed_words) > 0 and not print(len(missed_words), " words were skipped:\n",
-                                                        missed_words[:100]))
-
     @staticmethod
     def duplicates_analysis(valid_words):
         """
@@ -97,6 +78,9 @@ class Solver:
         print(f"{diff},{diff / withD * 100: .2f}, {withD}")
         print("Number of duplicates", diff)
         print(f"%age duplicates {diff / withD * 100: .2f}%")
+
+    def verify_wordtree(self):
+        return self.wt.verify_wordtree()
 
 
 solver = Solver()

@@ -10,19 +10,22 @@ class Tests:
         self.solver = solver
         self.runs = runs
 
-        if not self.verify_algo():
-            print("❌ - Algo verification failed to run successfully on Preconfigured board")
+        if not solver.verify_wordtree():
+            print("❌ - WordTree verification failed")
         else:
-            print(f"Algo verified, running test suite(s) with {runs} runs:")
+            if not self.verify_algo():
+                print("❌ - Algo verification failed to run successfully on Preconfigured board")
+            else:
+                print(f"Algo verified, running test suite(s) with {runs} runs:")
 
-            try:
-                self.test_suite()
-                self.overall_test()
-                print("\nSuccessfully finished test suites")
-            except:
-                print("\nException occurred while running test suites")
-            finally:
-                print("Test Over")
+                try:
+                    self.test_suite()
+                    self.overall_test()
+                    print("\nSuccessfully finished test suites")
+                except:
+                    print("\nException occurred while running test suites")
+                finally:
+                    print("Test Over")
 
     def run_generator(self, board):
         start = time.time()

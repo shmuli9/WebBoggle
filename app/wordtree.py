@@ -127,5 +127,23 @@ class WordTree:
 
         return self
 
+    def verify_wordtree(self):
+        """
+        Regression test to test to ensure that WordTree is working correctly
+        """
+
+        print("Checking wordtree")
+        self.reset_tree()
+        missed_words = []
+
+        with open(Config.DICTIONARY_ADDRESS, encoding="utf8") as file:
+            for word in file.read().split("\n"):
+                if not self.find(word):
+                    missed_words.append(word)
+
+        print("Finished checking wordtree")
+        return not (len(missed_words) > 0 and not print(len(missed_words), " words were skipped:\n",
+                                                        missed_words[:100]))
+
 
 wt = WordTree().build_wordtree()
