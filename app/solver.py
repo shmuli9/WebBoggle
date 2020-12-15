@@ -10,9 +10,10 @@ class Solver:
 
         for i in range(board.size):
             for j in range(board.size):
-                start_node = board.nodes[i][j]
+                start_bg_node = board.nodes[i][j]
+                start_wt_node = wt.children[start_bg_node.letter]
 
-                valid_words += self.find_words(start_node, wt.children[start_node.letter], visited={})
+                valid_words += self.find_words(start_bg_node, start_wt_node, visited={})
 
         if duplicates:
             duplicates_analysis(valid_words)
@@ -22,7 +23,15 @@ class Solver:
 
         return valid_words
 
-    def find_words(self, node, wt_node: WTNode, word="", visited=None):
+    def find_words(self, bg_node, wt_node: WTNode, word="", visited=None):
+        """
+        :param bg_node: Boggle board node
+        :param wt_node: WordTree node
+        :param word: current state of word being found
+        :param visited: set of previously visited Boggle board nodes
+        :return: list of found words
+        """
+
         valid_words = []
         curr_word = word + wt_node.data
 
@@ -41,14 +50,14 @@ class Solver:
                 wt_node.void = True
                 wt.voided_nodes.add(wt_node)  # save to unvoid for reuse of wordtree dictionary
 
-        for move in node.transitions:  # loop through all legal moves
-            if node.transitions[move] not in visited:
-                next_node = node.transitions[move]
+        for move in bg_node.transitions:  # loop through all legal moves
+            if bg_node.transitions[move] not in visited:
+                next_node = bg_node.transitions[move]
 
                 if next_node.letter in wt_node.children:
                     if not wt_node.children[next_node.letter].void:
                         new_visited = set(visited)  # copy values to new variable
-                        new_visited.add(node)  # add current node to visited
+                        new_visited.add(bg_node)  # add current node to visited
                         valid_words.extend(
                             self.find_words(next_node, wt_node.children[next_node.letter], curr_word, new_visited))
 
