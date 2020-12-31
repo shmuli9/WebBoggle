@@ -102,15 +102,15 @@ class Board(db.Model):
     def generate_words(self):
         return solver.generate_words(self)
 
-    # def __str__(self):
-    #     out = ""
-    #     for i in range(self.size):
-    #         for j in range(self.size):
-    #             out += f"{str(self.nodes[i][j].letter)} " \
-    #                 # f"- Possible transitions: {str(self.nodes[i][j].possible_transitions())}"
-    #             out += " " if j is not self.size - 1 else ""
-    #         out += "\n" if i is not self.size - 1 else ""
-    #     return out
+    def __str__(self):
+        out = ""
+        for i in range(self.size):
+            for j in range(self.size):
+                out += f"{str(self.nodes[i][j].letter)} " \
+                    # f"- Possible transitions: {str(self.nodes[i][j].possible_transitions())}"
+                out += " " if j is not self.size - 1 else ""
+            out += "\n" if i is not self.size - 1 else ""
+        return out
 
     def print_board(self):
         row = ""
@@ -131,7 +131,7 @@ class Board(db.Model):
     def _cell(self, node):
         output = ""
         letter = node.letter
-        trans = node.possible_transitions()
+        trans = node.transitions
         symbols = {
             "up": " ⬆ ",
             "down": " ⬇ ",
