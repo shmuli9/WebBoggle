@@ -1,29 +1,30 @@
-from app.wordtree import WTNode, wt
+from app.wordtree import WTNode
 
 
 class Solver:
     def __init__(self):
+        from app.wordtree import wt
         self.wt = wt
 
     def generate_words(self, board, duplicates=False):
-        valid_words = []
+        valid_words = {}
 
         for i in range(board.size):
             for j in range(board.size):
                 start_bg_node = board.nodes[i][j]
-                start_wt_node = wt.children[start_bg_node.letter]
+                start_wt_node = self.wt.children[start_bg_node.letter]
 
-                valid_words += self.find_words(start_bg_node, start_wt_node, visited={})
+                valid_words.update(self.find_words(start_bg_node, start_wt_node))
 
         if duplicates:
             duplicates_analysis(valid_words)
 
         # cleanup
-        wt.reset_tree()
+        self.wt.reset_tree()
 
         return valid_words
 
-    def find_words(self, bg_node, wt_node: WTNode, word="", visited=None):
+    def find_words(self, bg_node, wt_node: WTNode, word="", visited={}):
         """
         :param bg_node: Boggle board node
         :param wt_node: WordTree node
@@ -32,13 +33,14 @@ class Solver:
         :return: list of found words
         """
 
-        valid_words = []
+        valid_words = {}
         curr_word = word + wt_node.data
 
         if wt_node.isWord:  # word has been found in wordtree matching the boggle word
-            valid_words.append(curr_word)
+            valid_words[curr_word] = [bg_node.coords] + [n.coords for n in visited]
+
             wt_node.isWord = False  # mark as non word to prevent duplication
-            wt.voided_words.add(wt_node)
+            self.wt.voided_words.add(wt_node)
 
             void_this_node = True  # initialise to True
             for child in wt_node.children:
@@ -48,7 +50,7 @@ class Solver:
 
             if void_this_node:  # no unvoided children
                 wt_node.void = True
-                wt.voided_nodes.add(wt_node)  # save to unvoid for reuse of wordtree dictionary
+                self.wt.voided_nodes.add(wt_node)  # save to unvoid for reuse of wordtree dictionary
 
         for move in bg_node.transitions:  # loop through all legal moves
             if bg_node.transitions[move] not in visited:
@@ -58,7 +60,7 @@ class Solver:
                     if not wt_node.children[next_node.letter].void:
                         new_visited = set(visited)  # copy values to new variable
                         new_visited.add(bg_node)  # add current node to visited
-                        valid_words.extend(
+                        valid_words.update(
                             self.find_words(next_node, wt_node.children[next_node.letter], curr_word, new_visited))
 
         # check if wt node has unvoided children, if it does not, then void the node
@@ -67,7 +69,7 @@ class Solver:
                 return valid_words  # early return, as one or more children are not void
 
         wt_node.void = True  # no unvoided children so void
-        wt.voided_nodes.add(wt_node)
+        self.wt.voided_nodes.add(wt_node)
 
         return valid_words
 
