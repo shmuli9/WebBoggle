@@ -7,22 +7,19 @@ from app.utils import generate_uuid
 
 
 class Node:
-    def __init__(self, letter, trans=None):
-        self.letter = ""
-        self.transitions = {}
-
+    def __init__(self, letter, row, col):
+        self.coords = f"{row},{col}"
         self.letter = letter
-        if trans:
-            self.transitions = trans
+        self.transitions = None  # added later
+
+    def add_transitions(self, trans):
+        self.transitions = trans
 
     def __str__(self):
         return self.letter
 
     def __repr__(self):
         return self.letter
-
-    def add_transitions(self, trans):
-        self.transitions = trans
 
 
 class Board(db.Model):
@@ -51,7 +48,7 @@ class Board(db.Model):
                 if die == "Q":
                     die = "QU"
                     q_offset += 1
-                self.nodes[i][j] = Node(die)
+                self.nodes[i][j] = Node(die, i, j)
 
         for i in range(self.size):
             canUp = i != 0
