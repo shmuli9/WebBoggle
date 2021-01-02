@@ -5,14 +5,9 @@ from flask import render_template, jsonify, redirect, url_for, Blueprint
 from app import db
 from app.config import Config
 from app.models import Board
-from app.solver import generate_valid_words
-from app.wordtree import wt
+from app.solver import solver
 
 bp = Blueprint("routes", __name__)
-
-
-def async_reset_wt():
-    wt.reset_tree()
 
 
 @bp.route('/')
@@ -33,12 +28,14 @@ def generate_board():
     db.session.add(boggle_board)
     db.session.commit()
 
-    words = sorted(generate_valid_words(boggle_board))
-    wt.reset_tree()
-    # Thread(target=async_reset_wt()).start()
+    words = solver.generate_words(boggle_board)
 
-    return jsonify(
-        {"game_id": boggle_board.id, "board": board, "words": words}), 200
+    return {
+        "game_id": boggle_board.id,
+        "board": board,
+        "words": words,
+        "time_taken": ""
+    }
 
 
 @bp.route('/join/<game_id>')
@@ -48,9 +45,7 @@ def boggle_board(game_id):
     if not board:
         return redirect(url_for("routes.index"))
 
-    words = sorted(generate_valid_words(Board(board.dice)))
-    wt.reset_tree()
-    # Thread(target=async_reset_wt()).start()
+    words = sorted(solver.generate_words(Board(board.dice)))
 
     return render_template("index.html", game_id=board.id, dice=f"{board.generate_board()}",
                            words=words)
