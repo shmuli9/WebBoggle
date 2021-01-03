@@ -33,7 +33,7 @@ function Words(props) {
                 </Card.Header>
 
                 <Accordion.Collapse eventKey="0">
-                    <Card.Body className={"overflow-auto"} style={{height: "68vh"}}>
+                    <Card.Body className={"overflow-auto"} style={{maxHeight: "68vh"}}>
                         <InputGroup className={"mb-3"}>
                             <FormControl value={query} onChange={e => setQuery(e.target.value.toUpperCase())}
                                          style={{textTransform: "uppercase"}}/>
