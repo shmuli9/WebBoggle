@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import Container from "react-bootstrap/Container"
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import Main from "./Components/Main";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 
 function App() {
@@ -12,17 +12,30 @@ function App() {
         height: "auto"
     }
 
+    const Main = React.lazy(() => import("./Components/Main"));
+    const About = React.lazy(() => import("./Components/About"));
+
     return (
-        <div className="App">
-            <Container className="text-center mt-4" style={containerStyles}>
+        <Router>
+            <div className="App">
                 <Header/>
 
-                <Main/>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Container className="text-center mt-4" style={containerStyles}>
+                        <Switch>
+                            <Route path={"/about"}>
+                                <About/>
+                            </Route>
+                            <Route path={"/"}>
+                                <Main/>
+                            </Route>
+                        </Switch>
+                    </Container>
+                </Suspense>
 
                 <Footer/>
-            </Container>
-
-        </div>
+            </div>
+        </Router>
     );
 }
 

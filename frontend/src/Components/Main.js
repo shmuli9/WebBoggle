@@ -10,6 +10,7 @@ import _ from "underscore";
 import Alert from "react-bootstrap/Alert";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
+import {Link} from "react-router-dom";
 
 function Main() {
     const [boardID, setBoardID] = useState("");
@@ -36,6 +37,14 @@ function Main() {
 
     return (
         <>
+            <Alert variant={"dark"} className={""}>
+                <a className="h2 alert-heading" href="/">WebBoggle</a>
+                <hr/>
+                <p className={"mb-0"}>
+                    Generate boggle boards and share them with your friends so that you can play remotely!
+                </p>
+            </Alert>
+
             <Row className="mt-5">
                 <Col sm={4} className={"my-auto"}></Col>
                 <Board dice={dice} highlights={highlights}/>
@@ -62,24 +71,11 @@ function Main() {
                 New Board
             </Button>
 
-            <Alert variant="primary" className="mx-auto m-5" style={{maxWidth: "18rem"}}>
+            <Alert variant="dark" className="mx-auto m-5" style={{maxWidth: "18rem"}}>
                 <label htmlFor="game_link" className={"h5 mb-3"}>Share Game</label>
                 <p>
-                    <a href={`/join/${boardID}`} className={"font-weight-bold"}>{boardID}</a>
+                    <Link to={`/join/${boardID}`} className={"font-weight-bold"}>{boardID}</Link>
                 </p>
-                <hr/>
-                <label htmlFor="game_code" className="h5 mb-3">Join Game</label>
-                <InputGroup className="mb-3">
-                    <FormControl
-                        placeholder="GAME CODE"
-                        id="game_code"
-                        maxLength="6"
-                        style={{textTransform: "uppercase"}}
-                    />
-                    <InputGroup.Append>
-                        <Button id="join_game" variant={"success"}>Join</Button>
-                    </InputGroup.Append>
-                </InputGroup>
             </Alert>
         </>
     )
