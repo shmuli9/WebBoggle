@@ -16,7 +16,7 @@ function Main() {
     const [boardID, setBoardID] = useState("");
     const [words, setWords] = useState(Array(1).fill(""));
     const [dice, setDice] = useState(Array(4).fill(Array(4).fill("")));
-    const [highlights, setHighlights] = useState(Array(4).fill(Array(4).fill(false)));
+    const [highlights, setHighlights] = useState([]);
 
     useEffect(() => {
         get_board()
@@ -31,7 +31,7 @@ function Main() {
             setBoardID(data.game_id);
             setDice(data.board);
             setWords(data.words);
-            setHighlights()
+            setHighlights([])
         });
     }
 
