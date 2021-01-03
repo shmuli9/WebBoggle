@@ -16,18 +16,24 @@ def index():
     return render_template("index.html")
 
 
-@bp.route("/generate_board", methods=["POST"])
-def generate_board():
-    board_dice = random.sample(Config.DICE, len(Config.DICE))
-    board = []
+# @bp.route("/generate_board/", defaults={"game_id": "1"})
+@bp.route("/generate_board/<game_id>", methods=["POST"])
+def generate_board(game_id):
+    boggle_board = Board.query.filter_by(id=game_id).first()
 
-    for _ in range(4):
-        board.append([random.choice(board_dice.pop()) for __ in range(4)])
+    if not boggle_board:
+        board_dice = random.sample(Config.DICE, len(Config.DICE))
+        board = []
 
-    boggle_board = Board(board)
+        for _ in range(4):
+            board.append([random.choice(board_dice.pop()) for __ in range(4)])
 
-    db.session.add(boggle_board)
-    db.session.commit()
+        boggle_board = Board(board)
+
+        db.session.add(boggle_board)
+        db.session.commit()
+
+    board = boggle_board.dice_array
 
     start = time.time()
     words = solver.generate_words(boggle_board)

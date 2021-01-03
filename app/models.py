@@ -31,6 +31,26 @@ class Board(db.Model):
 
     nodes = [[]]
 
+    @property
+    def dice_array(self):
+        """
+        Used to convert dice from string into a 2D array
+        :return:
+        """
+        out = []
+
+        q_offset = 0
+        for i in range(self.size):
+            row = []
+            for j in range(self.size):
+                die = self.dice[i * self.size + j + q_offset]
+                if die == "Q":
+                    die = "Qu"
+                    q_offset += 1
+                row.append(die)
+            out.append(row)
+        return out
+
     def __init__(self, board=None):
         self.id = generate_uuid()
         self.size = Config.BOGGLE_BOARD_DIMENSION
