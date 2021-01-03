@@ -13,9 +13,7 @@ import FormControl from "react-bootstrap/FormControl";
 import {Link} from "react-router-dom";
 
 function Main() {
-    const [boardID, setBoardID] = useState("");
-    const [words, setWords] = useState(Array(1).fill(""));
-    const [dice, setDice] = useState(Array(4).fill(Array(4).fill("")));
+    const [board, setBoard] = useState({id: "", dice: "", words: [], time: ""})
     const [highlights, setHighlights] = useState([]);
 
     useEffect(() => {
@@ -28,9 +26,12 @@ function Main() {
 
     const get_board = () => {
         fetch('/generate_board', {method: "POST"}).then(res => res.json()).then(data => {
-            setBoardID(data.game_id);
-            setDice(data.board);
-            setWords(data.words);
+            setBoard({
+                id: data.game_id,
+                dice: data.board,
+                words: data.words,
+                time: data.time_taken
+            })
             setHighlights([])
         });
     }
@@ -47,7 +48,7 @@ function Main() {
 
             <Row className="mt-5">
                 <Col sm={4} className={"my-auto"}></Col>
-                <Board dice={dice} highlights={highlights}/>
+                <Board dice={board.dice} highlights={highlights}/>
                 <Col sm={4} className={"my-auto"}>
                     <Accordion>
                         <Card>
@@ -55,12 +56,12 @@ function Main() {
                                 <h2 className={"mb-0"}>
                                     <Accordion.Toggle as={Button} variant={"link"} eventKey={"0"}>
                                         <b>Valid Words</b>
-                                        <span id={"word_count"}> ({_.size(words)})</span>
+                                        <span id={"word_count"}> ({_.size(board.words)})</span>
                                     </Accordion.Toggle>
                                 </h2>
                             </Card.Header>
                             <Accordion.Collapse eventKey="0">
-                                <Words words={words} setHighlights={setHighlights}/>
+                                <Words board={board} words={board.words} setHighlights={setHighlights}/>
                             </Accordion.Collapse>
                         </Card>
                     </Accordion>
@@ -74,7 +75,7 @@ function Main() {
             <Alert variant="dark" className="mx-auto m-5" style={{maxWidth: "18rem"}}>
                 <label htmlFor="game_link" className={"h5 mb-3"}>Share Game</label>
                 <p>
-                    <Link to={`/join/${boardID}`} className={"font-weight-bold"}>{boardID}</Link>
+                    <Link to={`/join/${board.id}`} className={"font-weight-bold"}>{board.id}</Link>
                 </p>
             </Alert>
         </>

@@ -1,6 +1,7 @@
 import random
+import time
 
-from flask import render_template, jsonify, redirect, url_for, Blueprint
+from flask import render_template, redirect, url_for, Blueprint
 
 from app import db
 from app.config import Config
@@ -28,13 +29,15 @@ def generate_board():
     db.session.add(boggle_board)
     db.session.commit()
 
+    start = time.time()
     words = solver.generate_words(boggle_board)
+    time_taken = f"{(time.time() - start) * 1000:.4f}"
 
     return {
         "game_id": boggle_board.id,
         "board": board,
         "words": words,
-        "time_taken": ""
+        "time_taken": time_taken
     }
 
 
