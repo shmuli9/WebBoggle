@@ -1,5 +1,5 @@
 import React from "react";
-import "../table.css"
+import "../Styles/table.css"
 
 function Board(props) {
     const {dice, highlights} = props
