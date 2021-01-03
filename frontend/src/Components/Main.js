@@ -22,7 +22,7 @@ function Main() {
     }
 
     const get_board = () => {
-        fetch(`/generate_board/${game_id ? game_id : ""}`, {method: "POST"}).then(res => res.json()).then(data => {
+        fetch(`/api/generate_board/${game_id ? game_id : ""}`, {method: "POST"}).then(res => res.json()).then(data => {
             setBoard({
                 id: data.game_id,
                 dice: data.board,
@@ -37,7 +37,6 @@ function Main() {
         get_board()
         history.push("/")
     }
-
 
     return (
         <>

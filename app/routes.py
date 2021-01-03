@@ -11,8 +11,8 @@ from app.solver import solver
 bp = Blueprint("routes", __name__)
 
 
-@bp.route("/generate_board/", defaults={"game_id": ""}, methods=["POST"])
-@bp.route("/generate_board/<game_id>", methods=["POST"])
+@bp.route("/api/generate_board/", defaults={"game_id": ""}, methods=["POST"])
+@bp.route("/api/generate_board/<game_id>", methods=["POST"])
 def generate_board(game_id):
     boggle_board = Board.query.filter_by(id=game_id).first()
 
