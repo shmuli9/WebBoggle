@@ -13,7 +13,8 @@ function Header() {
                     <Nav.Link as={Link} to="/about">About</Nav.Link>
                 </Nav>
                 <Form inline>
-                    <FormControl type="text" placeholder="GAME CODE" className="mr-sm-2"/>
+                    <FormControl type="text" placeholder="GAME CODE" maxLength="6"
+                        style={{textTransform: "uppercase"}} className="mr-sm-2"/>
                     <Button variant="outline-light">JOIN</Button>
                 </Form>
             </Navbar.Collapse>
