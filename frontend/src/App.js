@@ -26,6 +26,9 @@ function App() {
                             <Route path={"/about"}>
                                 <About/>
                             </Route>
+                            <Route path={"/join/:game_id"}>
+                                <Main/>
+                            </Route>
                             <Route path={"/"}>
                                 <Main/>
                             </Route>

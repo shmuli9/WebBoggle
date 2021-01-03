@@ -8,11 +8,13 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import _ from "underscore";
 import Alert from "react-bootstrap/Alert";
-import {Link} from "react-router-dom";
+import {Link, useHistory, useParams} from "react-router-dom";
 
 function Main() {
     const [board, setBoard] = useState({id: "", dice: "", words: [], time: ""})
     const [highlights, setHighlights] = useState([]);
+    const {game_id} = useParams();
+    const history = useHistory()
 
     useEffect(() => {
         get_board()
@@ -22,8 +24,8 @@ function Main() {
         get_board()
     }
 
-    const get_board = (id) => {
-        fetch(`/generate_board/${id ? id : ""}`, {method: "POST"}).then(res => res.json()).then(data => {
+    const get_board = () => {
+        fetch(`/generate_board/${game_id ? game_id : ""}`, {method: "POST"}).then(res => res.json()).then(data => {
             setBoard({
                 id: data.game_id,
                 dice: data.board,
@@ -34,10 +36,16 @@ function Main() {
         });
     }
 
+    if (game_id) {
+        get_board()
+        history.push("/")
+    }
+
+
     return (
         <>
             <Alert variant={"dark"} className={""}>
-                <a className="h2 alert-heading" href="/">WebBoggle</a>
+                <Link to={"/"} className="h2 alert-heading">WebBoggle</Link>
                 <hr/>
                 <p className={"mb-0"}>
                     Generate boggle boards and share them with your friends so that you can play remotely!

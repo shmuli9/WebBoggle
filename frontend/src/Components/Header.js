@@ -1,9 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import {Form, FormControl, Nav, Navbar} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 function Header() {
+    const [game, setGame] = useState("")
+    const hist = useHistory()
+
+    const joinGame = () => {
+        hist.push(`/join/${game}`)
+        setGame("")
+    }
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Navbar.Brand as={Link} to="/">WebBoggle</Navbar.Brand>
@@ -14,8 +22,9 @@ function Header() {
                 </Nav>
                 <Form inline>
                     <FormControl type="text" placeholder="GAME CODE" maxLength="6"
-                        style={{textTransform: "uppercase"}} className="mr-sm-2"/>
-                    <Button variant="outline-light">JOIN</Button>
+                                 style={{textTransform: "uppercase"}} className="mr-sm-2"
+                                 onChange={e => setGame(e.target.value)} value={game}/>
+                    <Button variant="outline-light" onClick={joinGame}>JOIN</Button>
                 </Form>
             </Navbar.Collapse>
         </Navbar>
