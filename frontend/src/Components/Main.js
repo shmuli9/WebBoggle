@@ -3,10 +3,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Board from "./Board";
 import Words from "./Words";
-import Accordion from "react-bootstrap/Accordion";
-import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import _ from "underscore";
 import Alert from "react-bootstrap/Alert";
 import {Link, useHistory, useParams} from "react-router-dom";
 
@@ -56,21 +53,7 @@ function Main() {
                 <Col sm={4} className={"my-auto"}></Col>
                 <Board dice={board.dice} highlights={highlights}/>
                 <Col sm={4} className={"my-auto"}>
-                    <Accordion>
-                        <Card>
-                            <Card.Header>
-                                <h2 className={"mb-0"}>
-                                    <Accordion.Toggle as={Button} variant={"link"} eventKey={"0"}>
-                                        <b>Valid Words</b>
-                                        <span id={"word_count"}> ({_.size(board.words)})</span>
-                                    </Accordion.Toggle>
-                                </h2>
-                            </Card.Header>
-                            <Accordion.Collapse eventKey="0">
-                                <Words board={board} setHighlights={setHighlights}/>
-                            </Accordion.Collapse>
-                        </Card>
-                    </Accordion>
+                    <Words board={board} setHighlights={setHighlights}/>
                 </Col>
             </Row>
 
