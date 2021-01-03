@@ -18,39 +18,55 @@ function App() {
     const [boardID, setBoardID] = useState("");
     const [words, setWords] = useState(Array(1).fill(""));
     const [dice, setDice] = useState(Array(4).fill(Array(4).fill("")));
+    const [highlights, setHighlights] = useState(Array(4).fill(Array(4).fill(false)));
+
 
     useEffect(() => {
-        fetch('/generate_board', {method: "POST"}).then(res => res.json()).then(data => {
-            setBoardID(data.game_id);
-            setDice(data.board);
-            setWords(data.words);
-        });
+        get_board()
     }, []);
 
     const newBoard = () => {
+        get_board()
+    }
+
+    const get_board = () => {
         fetch('/generate_board', {method: "POST"}).then(res => res.json()).then(data => {
             setBoardID(data.game_id);
             setDice(data.board);
             setWords(data.words);
+            setHighlights()
         });
     }
 
     const highlightBoard = (coords) => {
-        console.log(coords)
+        let h = Array(4).fill(null).map(() => Array(4).fill(false));
 
+        for (const c in coords) {
+            let [x, y] = coords[c].split(",")
+            h[x][y] = true
+        }
+
+        setHighlights(h)
+    }
+
+    const renderBoard = () => {
         const style = {
             background: "blue",
             color: "white"
         }
+
+        let d = []
+        for (let i = 0; i < dice.length; i++) {
+            let r = []
+            for (let j = 0; j < dice[i].length; j++) {
+                let die = dice[i][j]
+                r.push(<td id={die} style={highlights ? highlights[i][j] ? style : {} : {}}>{die}</td>)
+            }
+            d.push((<tr>{r}</tr>))
+        }
+        return d
     }
 
-    const renderBoard = () => {
-        for (let i = 0; i < dice.length; i++) {
-            for (let j = 0; j < dice[i].length; j++){
-                let coord = `${i},${j}`
-            }
-        }
-    }
 
     return (
         <div className="App">
@@ -73,15 +89,7 @@ function App() {
                     <Col sm={4} className={"my-auto"}></Col>
                     <table className="col-sm-4 mx-auto border p-2" id="boggle_board" style={{maxWidth: "16em"}}>
                         <tbody>
-
-                        {dice.map((row) =>
-                            <tr>
-                                {row.map((die) =>
-                                    <td id={die}>
-                                        {die}
-                                    </td>)}
-                            </tr>)
-                        }
+                        {renderBoard()}
                         </tbody>
                     </table>
                     <Col sm={4} className={"my-auto"}>
@@ -104,7 +112,6 @@ function App() {
                                                         onClick={() => highlightBoard(coord)}>
                                                         {word}
                                                     </li>
-                                                //     - {coord ? coord.map((coord) => `${coord} `) : ""}
                                             )}
                                         </ListGroup>
                                         <p className={"mt-3"}>Found in 1.5ms</p>
