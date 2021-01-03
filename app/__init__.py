@@ -15,8 +15,8 @@ def create_app(config_object=Config):
     db.init_app(app)
     migrate.init_app(app, db, config_object.MIGRATIONS_DIR)
 
-    @app.route('/')
-    def index():
+    @app.errorhandler(404)
+    def not_found(e):
         return app.send_static_file('index.html')
 
     from app.routes import bp
