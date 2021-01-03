@@ -28,7 +28,7 @@ def generate_board(game_id):
         db.session.add(boggle_board)
         db.session.commit()
 
-    board = boggle_board.dice_array
+    board = boggle_board.generate_board()
 
     start = time.time()
     words = solver.generate_words(boggle_board)
