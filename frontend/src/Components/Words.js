@@ -1,7 +1,7 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
 import React, {useState} from "react";
-import {FormControl, InputGroup} from "react-bootstrap";
+import {FormControl, InputGroup, NavLink} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import _ from "underscore";
@@ -18,6 +18,7 @@ function Words(props) {
 
     const numWords = _.size(board.words)
     const filteredWords = Object.entries(board.words).filter(([word, coord]) => word.includes(query.trim()))
+    const sizeFiltered = _.size(filteredWords)
 
     return (
         <Accordion>
@@ -37,21 +38,21 @@ function Words(props) {
                             <FormControl value={query} onChange={e => setQuery(e.target.value.toUpperCase())}
                                          style={{textTransform: "uppercase"}}/>
                             <InputGroup.Append>
-                                <InputGroup.Text>{_.size(filteredWords)}/{numWords} results</InputGroup.Text>
+                                <InputGroup.Text>{sizeFiltered}/{numWords} results</InputGroup.Text>
                             </InputGroup.Append>
                         </InputGroup>
 
                         <ListGroup variant={"flush"}>
                             {filteredWords.map(([word, coord]) =>
-                                    <ListGroup.Item
-                                        onClick={() => word === activeWord ? setActiveHighlights("", []) : setActiveHighlights(word, coord)}
-                                        active={word === activeWord}>
-                                        {word}
-                                    </ListGroup.Item>
-                                )}
+                                <ListGroup.Item
+                                    onClick={() => word === activeWord ? setActiveHighlights("", []) : setActiveHighlights(word, coord)}
+                                    active={word === activeWord} action as={NavLink}>
+                                    {word}
+                                </ListGroup.Item>
+                            )}
                         </ListGroup>
 
-                        <p className={"mt-3"}>Found in {board.time}ms</p>
+                        <p className={"mt-3"}>Words found in {board.time}ms<br/>Correct as per Collins Scrabble Dictionary 2019</p>
                     </Card.Body>
                 </Accordion.Collapse>
             </Card>
