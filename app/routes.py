@@ -1,7 +1,7 @@
 import random
 import time
 
-from flask import render_template, redirect, url_for, Blueprint
+from flask import Blueprint
 
 from app import db
 from app.config import Config
@@ -11,12 +11,7 @@ from app.solver import solver
 bp = Blueprint("routes", __name__)
 
 
-@bp.route('/')
-def index():
-    return render_template("index.html")
-
-
-# @bp.route("/generate_board/", defaults={"game_id": "1"})
+@bp.route("/generate_board/", defaults={"game_id": ""}, methods=["POST"])
 @bp.route("/generate_board/<game_id>", methods=["POST"])
 def generate_board(game_id):
     boggle_board = Board.query.filter_by(id=game_id).first()
@@ -45,16 +40,3 @@ def generate_board(game_id):
         "words": words,
         "time_taken": time_taken
     }
-
-
-@bp.route('/join/<game_id>')
-def boggle_board(game_id):
-    board = Board.query.filter_by(id=game_id).first()
-
-    if not board:
-        return redirect(url_for("routes.index"))
-
-    words = sorted(solver.generate_words(Board(board.dice)))
-
-    return render_template("index.html", game_id=board.id, dice=f"{board.generate_board()}",
-                           words=words)

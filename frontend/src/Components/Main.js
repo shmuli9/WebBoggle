@@ -8,8 +8,6 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import _ from "underscore";
 import Alert from "react-bootstrap/Alert";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
 import {Link} from "react-router-dom";
 
 function Main() {
@@ -24,8 +22,8 @@ function Main() {
         get_board()
     }
 
-    const get_board = () => {
-        fetch('/generate_board', {method: "POST"}).then(res => res.json()).then(data => {
+    const get_board = (id) => {
+        fetch(`/generate_board/${id ? id : ""}`, {method: "POST"}).then(res => res.json()).then(data => {
             setBoard({
                 id: data.game_id,
                 dice: data.board,
@@ -61,7 +59,7 @@ function Main() {
                                 </h2>
                             </Card.Header>
                             <Accordion.Collapse eventKey="0">
-                                <Words board={board} words={board.words} setHighlights={setHighlights}/>
+                                <Words board={board} setHighlights={setHighlights}/>
                             </Accordion.Collapse>
                         </Card>
                     </Accordion>
