@@ -29,11 +29,17 @@ class Board(db.Model):
 
     dice = db.Column(db.String(17))  # not safe for larger boggle boards...
 
-    nodes = [[]]
+    size = db.Column(db.Integer)
+
+    _nodes = None
 
     def __init__(self, board=None):
         self.id = generate_uuid()
         self.size = Config.BOGGLE_BOARD_DIMENSION
+
+        self.gen_nodes(board)
+
+    def gen_nodes(self, board=None):
         self.nodes = [[{} for i in range(self.size)] for j in range(self.size)]
 
         if not board:
@@ -77,6 +83,16 @@ class Board(db.Model):
                         trans["left"] = self.nodes[i][j - 1]
 
                 self.nodes[i][j].add_transitions(trans)
+
+    @property
+    def nodes(self):
+        if not self._nodes:
+            self.gen_nodes(self.dice)
+        return self._nodes
+
+    @nodes.setter
+    def nodes(self, value):
+        self._nodes = value
 
     def generate_board(self, uppercase_u=False):
         """returns a 2 dimensional array for the dice"""
@@ -157,3 +173,5 @@ class Board(db.Model):
         output += "\n"
 
         return output
+
+
