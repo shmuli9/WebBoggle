@@ -32,7 +32,7 @@ function Words(props) {
                 </Card.Header>
 
                 <Accordion.Collapse eventKey="0">
-                    <Card.Body className={"overflow-auto"} style={{height: "10em"}}>
+                    <Card.Body className={"overflow-auto"} style={{height: "12em"}}>
                         <InputGroup className={"mb-3"}>
                             <FormControl value={query} onChange={e => setQuery(e.target.value.toUpperCase())}
                                          style={{textTransform: "uppercase"}}/>
@@ -41,7 +41,7 @@ function Words(props) {
                             </InputGroup.Append>
                         </InputGroup>
 
-                        <ListGroup>
+                        <ListGroup variant={"flush"}>
                             {filteredWords.map(([word, coord]) =>
                                     <ListGroup.Item
                                         onClick={() => word === activeWord ? setActiveHighlights("", []) : setActiveHighlights(word, coord)}
