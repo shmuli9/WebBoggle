@@ -28,7 +28,7 @@ function Board(props) {
     }
 
     return (
-        <table className="col-sm-4 mx-auto border p-2" style={{maxWidth: "16em"}}>
+        <table className="mx-auto border p-2" style={{maxWidth: "16em"}}>
             <tbody>
             {renderBoard()}
             </tbody>

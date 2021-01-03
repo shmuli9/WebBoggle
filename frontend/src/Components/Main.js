@@ -51,22 +51,27 @@ function Main() {
 
             <Row className="mt-5">
                 <Col sm={4} className={"my-auto"}></Col>
-                <Board dice={board.dice} highlights={highlights}/>
-                <Col sm={4} className={"my-auto"}>
+
+                <Col sm={4} className={"mb-auto"}>
+                    <Board dice={board.dice} highlights={highlights}/>
+                    <Button variant={"success"} className={"btn-lg font-weight-bold mt-5"} onClick={newBoard}>
+                        New Board
+                    </Button>
+
+                    <Alert variant="dark" className="mx-auto m-5" style={{maxWidth: "18rem"}}>
+                        <label htmlFor="game_link" className={"h5 mb-3"}>Share Game</label>
+                        <p>
+                            <Link to={`/join/${board.id}`} className={"font-weight-bold"}>{board.id}</Link>
+                        </p>
+                    </Alert>
+                </Col>
+
+                <Col sm={4} className={"mb-auto"}>
                     <Words board={board} setHighlights={setHighlights}/>
                 </Col>
             </Row>
 
-            <Button variant={"success"} className={"btn-lg font-weight-bold mt-5"} onClick={newBoard}>
-                New Board
-            </Button>
 
-            <Alert variant="dark" className="mx-auto m-5" style={{maxWidth: "18rem"}}>
-                <label htmlFor="game_link" className={"h5 mb-3"}>Share Game</label>
-                <p>
-                    <Link to={`/join/${board.id}`} className={"font-weight-bold"}>{board.id}</Link>
-                </p>
-            </Alert>
         </>
     )
 }

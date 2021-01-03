@@ -8,8 +8,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 function App() {
     const containerStyles = {
         minWidth: "300px",
-        maxWidth: "1080px",
-        height: "auto"
+        maxWidth: "1080px"
     }
 
     const Main = React.lazy(() => import("./Components/Main"));
