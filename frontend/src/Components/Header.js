@@ -8,8 +8,10 @@ function Header() {
     const hist = useHistory()
 
     const joinGame = () => {
-        hist.push(`/join/${game}`)
-        setGame("")
+        if (game) {
+            hist.push(`/join/${game}`)
+            setGame("")
+        }
     }
 
     return (
