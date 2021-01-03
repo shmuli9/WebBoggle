@@ -9,11 +9,15 @@ migrate = Migrate()
 
 
 def create_app(config_object=Config):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
     app.config.from_object(config_object)
 
     db.init_app(app)
     migrate.init_app(app, db, config_object.MIGRATIONS_DIR)
+
+    @app.route('/')
+    def index():
+        return app.send_static_file('index.html')
 
     from app.routes import bp
     app.register_blueprint(bp)

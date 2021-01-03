@@ -11,6 +11,9 @@ from app.solver import solver
 bp = Blueprint("routes", __name__)
 
 
+
+
+
 @bp.route("/api/generate_board/", defaults={"game_id": ""}, methods=["POST"])
 @bp.route("/api/generate_board/<game_id>", methods=["POST"])
 def generate_board(game_id):
