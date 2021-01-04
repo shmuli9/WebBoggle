@@ -14,27 +14,28 @@ function Main() {
     const history = useHistory()
 
     useEffect(() => {
-        get_board()
+        newBoard()
     }, []);
 
     const newBoard = () => {
-        get_board()
-    }
-
-    const get_board = () => {
-        fetch(`/api/generate_board/${game_id ? game_id : ""}`, {method: "POST"}).then(res => res.json()).then(data => {
-            setBoard({
-                id: data.game_id,
-                dice: data.board,
-                words: data.words,
-                time: data.time_taken
-            })
-            setHighlights([])
-        });
+        fetch(`/api/generate_board/${game_id ? game_id : ""}`, {method: "POST"})
+            .then(res => res.json())
+            .then(data => {
+                setBoard({
+                    id: data.game_id,
+                    dice: data.board,
+                    words: data.words,
+                    time: data.time_taken
+                })
+                setHighlights([])
+            });
     }
 
     if (game_id) {
-        get_board()
+        // join game logic.
+        // 1 - get board with game id
+        newBoard()
+        // 2 - redirect to standard page
         history.push("/")
     }
 
