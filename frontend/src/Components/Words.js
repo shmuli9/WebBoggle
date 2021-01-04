@@ -37,7 +37,7 @@ function Words(props) {
                     <Card.Body className={"overflow-auto"} style={{maxHeight: "68vh"}}>
                         <InputGroup className={"mb-3"}>
                             <FormControl value={query} onChange={e => setQuery(e.target.value.toUpperCase())}
-                                         style={{textTransform: "uppercase"}}/>
+                                         style={{textTransform: "uppercase"}} placeholder={"SEARCH"}/>
                             <InputGroup.Append>
                                 <InputGroup.Text>{sizeFiltered}/{numWords} results</InputGroup.Text>
                             </InputGroup.Append>
