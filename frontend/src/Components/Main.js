@@ -8,7 +8,13 @@ import Alert from "react-bootstrap/Alert";
 import {Link, useHistory, useParams} from "react-router-dom";
 
 function Main() {
-    const [board, setBoard] = useState({id: "", dice: "", words: [], time: ""})
+    const defaultBoard = {
+        id: "XXXXXX",
+        dice: Array(4).fill(Array(4).fill(" ")),
+        words: [],
+        time: ""
+    }
+    const [board, setBoard] = useState(defaultBoard)
     const [highlights, setHighlights] = useState([]);
     const {game_id} = useParams();
     const history = useHistory()
@@ -18,6 +24,7 @@ function Main() {
     }, []);
 
     const newBoard = () => {
+        setBoard(defaultBoard)
         fetch(`/api/generate_board/${game_id ? game_id : ""}`, {method: "POST"})
             .then(res => res.json())
             .then(data => {
