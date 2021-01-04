@@ -11,6 +11,7 @@ function Words(props) {
     const {board, setHighlights} = props
     const [query, setQuery] = useState("")
     const [activeWord, setActiveWord] = useState("")
+    const [sortByLen, setSortBy] = useState(false)
 
     const setActiveHighlights = (word, coord) => {
         setActiveWord(word)
@@ -18,8 +19,9 @@ function Words(props) {
     }
 
     const numWords = _.size(board.words)
-    const filteredWords = Object.entries(board.words).filter(([word, coord]) => word.includes(query.trim()))
+    const filteredWords = Object.entries(board.words).filter((word) => word[0].includes(query.trim()))
     const sizeFiltered = _.size(filteredWords)
+    const sortedByLen = [...filteredWords].sort((f, s) => f[0].length - s[0].length)
 
     return (
         <Accordion>
@@ -43,8 +45,12 @@ function Words(props) {
                             </InputGroup.Append>
                         </InputGroup>
 
+                        <Button onClick={() => setSortBy((old) => !old)}>
+                            Sort {sortByLen ? "Alphabetically" : "by Length"}
+                        </Button>
+
                         <ListGroup variant={"flush"}>
-                            {filteredWords.map(([word, coord]) =>
+                            {(sortByLen ? sortedByLen : filteredWords).map(([word, coord]) =>
                                 <ListGroup.Item
                                     onClick={() => word === activeWord ? setActiveHighlights("", []) : setActiveHighlights(word, coord)}
                                     active={word === activeWord} action as={NavLink}>
@@ -53,7 +59,8 @@ function Words(props) {
                             )}
                         </ListGroup>
 
-                        <p className={"mt-3"}>Words found in {board.time}ms<br/>Correct as per Collins Scrabble Dictionary 2019</p>
+                        <p className={"mt-3"}>Words found in {board.time}ms<br/>Correct as per Collins Scrabble
+                            Dictionary 2019</p>
                     </Card.Body>
                 </Accordion.Collapse>
             </Card>
