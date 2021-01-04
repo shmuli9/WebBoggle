@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import {Form, FormControl, Nav, Navbar} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {Link, useHistory} from "react-router-dom";

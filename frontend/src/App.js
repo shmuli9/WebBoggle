@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react';
+import {Suspense, lazy} from 'react';
 import Container from "react-bootstrap/Container"
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
@@ -11,8 +11,8 @@ function App() {
         maxWidth: "1080px"
     }
 
-    const Main = React.lazy(() => import("./Components/Main"));
-    const About = React.lazy(() => import("./Components/About"));
+    const Main = lazy(() => import("./Components/Main"));
+    const About = lazy(() => import("./Components/About"));
 
     return (
         <Router>

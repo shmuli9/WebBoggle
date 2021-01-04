@@ -1,5 +1,3 @@
-import React from "react";
-
 function Footer() {
     return (
         <div className="w-100 text-center" style={{bottom: "0", height: "25px"}}>

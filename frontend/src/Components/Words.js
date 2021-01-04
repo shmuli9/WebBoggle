@@ -1,6 +1,6 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
-import React, {useState} from "react";
+import {useState} from "react";
 import {FormControl, InputGroup, NavLink} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
