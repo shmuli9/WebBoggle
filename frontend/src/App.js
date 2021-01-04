@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container"
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import LoadingScreen from "./Components/Loading";
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
             <div className="App">
                 <Header/>
 
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={LoadingScreen}>
                     <Container className="text-center mt-4" style={containerStyles}>
                         <Switch>
                             <Route path={"/about"}>
