@@ -24,6 +24,7 @@ function Main() {
     }, []);
 
     const newBoard = () => {
+        setHighlights([])
         setBoard(defaultBoard)
         fetch(`/api/generate_board/${game_id ? game_id : ""}`, {method: "POST"})
             .then(res => res.json())
@@ -34,13 +35,12 @@ function Main() {
                     words: data.words,
                     time: data.time_taken
                 })
-                setHighlights([])
             });
     }
 
     if (game_id) {
         // join game logic.
-        // 1 - get board with game id
+        // 1 - get board
         newBoard()
         // 2 - redirect to standard page
         history.push("/")
