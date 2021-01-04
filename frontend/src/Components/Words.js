@@ -5,6 +5,7 @@ import {FormControl, InputGroup, NavLink} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import _ from "underscore";
+import "../Styles/Words.css"
 
 function Words(props) {
     const {board, setHighlights} = props
