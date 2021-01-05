@@ -21,7 +21,7 @@ function Words(props) {
     const numWords = _.size(board.words)
     const filteredWords = Object.entries(board.words).filter((word) => word[0].includes(query.trim()))
     const sizeFiltered = _.size(filteredWords)
-    const sortedByLen = [...filteredWords].sort((f, s) => f[0].length - s[0].length)
+    const sortedByLen = [...filteredWords].sort((f, s) => s[0].length - f[0].length)
 
     return (
         <Accordion>
@@ -45,7 +45,7 @@ function Words(props) {
                             </InputGroup.Append>
                         </InputGroup>
 
-                        <Button onClick={() => setSortBy((old) => !old)}>
+                        <Button variant={"success"} className={"mb-3"} onClick={() => setSortBy((old) => !old)}>
                             Sort {sortByLen ? "Alphabetically" : "by Length"}
                         </Button>
 
