@@ -45,11 +45,13 @@ function Words(props) {
                             </InputGroup.Append>
                         </InputGroup>
 
-                        <Button variant={"success"} className={"mb-3"} onClick={() => setSortBy((old) => !old)}>
+                        <Button variant={"success"} className={"mb-3"} disabled={sizeFiltered < 1}
+                                onClick={() => setSortBy((old) => !old)}>
                             Sort {sortByLen ? "Alphabetically" : "by Length"}
                         </Button>
 
-                        <ListGroup variant={"flush"}>
+
+                        <ListGroup variant={"flush"} style={{height: "45vh", overflowY: "auto"}}>
                             {(sortByLen ? sortedByLen : filteredWords).map(([word, coord]) =>
                                 <ListGroup.Item
                                     onClick={() => word === activeWord ? setActiveHighlights("", []) : setActiveHighlights(word, coord)}
