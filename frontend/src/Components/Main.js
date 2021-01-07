@@ -35,16 +35,12 @@ function Main() {
                     words: data.words,
                     time: data.time_taken
                 })
+                if (game_id) {
+                    history.push("/") // redirect to standard page and clear game_id
+                }
             });
     }
 
-    if (game_id) {
-        // join game logic.
-        // 1 - get board
-        newBoard()
-        // 2 - redirect to standard page
-        history.push("/")
-    }
 
     return (
         <>
