@@ -37,7 +37,7 @@ function Words(props) {
                 </Card.Header>
 
                 <Accordion.Collapse eventKey="0">
-                    <Card.Body className={"overflow-auto"} style={{maxHeight: "68vh"}}>
+                    <Card.Body className={"overflow-auto"} style={{maxHeight: "66vh"}}>
                         <InputGroup className={"mb-3"}>
                             <FormControl value={query} onChange={e => setQuery(e.target.value.toUpperCase())}
                                          style={{textTransform: "uppercase"}} placeholder={"SEARCH"}/>
@@ -51,7 +51,7 @@ function Words(props) {
                             Sort {sortByLen ? "Alphabetically" : "by Length"}
                         </Button>
 
-                        <SimpleBars style={{ maxHeight: "45vh", }}>
+                        <SimpleBars style={{ maxHeight: "43vh"}}>
                             <ListGroup variant={"flush"} >
                                 {(sortByLen ? sortedByLen : filteredWords).map(([word, coord]) =>
                                     <ListGroup.Item
