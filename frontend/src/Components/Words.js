@@ -6,6 +6,7 @@ import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import _ from "underscore";
 import "../Styles/Words.css"
+import SimpleBars from "simplebar-react";
 
 function Words(props) {
     const {board, setHighlights} = props
@@ -50,16 +51,17 @@ function Words(props) {
                             Sort {sortByLen ? "Alphabetically" : "by Length"}
                         </Button>
 
-
-                        <ListGroup variant={"flush"} style={{height: "45vh", overflowY: "auto"}}>
-                            {(sortByLen ? sortedByLen : filteredWords).map(([word, coord]) =>
-                                <ListGroup.Item
-                                    onClick={() => word === activeWord ? setActiveHighlights("", []) : setActiveHighlights(word, coord)}
-                                    active={word === activeWord} action as={NavLink}>
-                                    {word}
-                                </ListGroup.Item>
-                            )}
-                        </ListGroup>
+                        <SimpleBars style={{ maxHeight: "45vh", }}>
+                            <ListGroup variant={"flush"} >
+                                {(sortByLen ? sortedByLen : filteredWords).map(([word, coord]) =>
+                                    <ListGroup.Item
+                                        onClick={() => word === activeWord ? setActiveHighlights("", []) : setActiveHighlights(word, coord)}
+                                        active={word === activeWord} action as={NavLink} key={word}>
+                                        {word}
+                                    </ListGroup.Item>
+                                )}
+                            </ListGroup>
+                        </SimpleBars>
 
                         <p className={"mt-3"}>Words found in {board.time}ms<br/>Correct as per Collins Scrabble
                             Dictionary 2019</p>

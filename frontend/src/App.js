@@ -1,9 +1,11 @@
-import {Suspense, lazy} from 'react';
+import {lazy, Suspense} from 'react';
 import Container from "react-bootstrap/Container"
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import LoadingScreen from "./Components/Loading";
+import 'simplebar/dist/simplebar.min.css';
+import SimpleBars from "simplebar-react";
 
 
 function App() {
@@ -17,7 +19,8 @@ function App() {
 
     return (
         <Router>
-            <div className="App">
+            <SimpleBars style={{maxHeight: "100vh",}}>
+
                 <Header/>
 
                 <Suspense fallback={LoadingScreen}>
@@ -37,7 +40,8 @@ function App() {
                 </Suspense>
 
                 <Footer/>
-            </div>
+
+            </SimpleBars>
         </Router>
     );
 }
