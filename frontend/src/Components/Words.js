@@ -51,8 +51,10 @@ function Words(props) {
                             Sort {sortByLen ? "Alphabetically" : "by Length"}
                         </Button>
 
-                        <SimpleBars style={{ maxHeight: "43vh"}}>
-                            <ListGroup variant={"flush"} >
+                        <p>Click a word to see it on the Board!</p>
+
+                        <SimpleBars style={{maxHeight: "40vh"}}>
+                            <ListGroup variant={"flush"}>
                                 {(sortByLen ? sortedByLen : filteredWords).map(([word, coord]) =>
                                     <ListGroup.Item
                                         onClick={() => word === activeWord ? setActiveHighlights("", []) : setActiveHighlights(word, coord)}
