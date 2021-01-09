@@ -1,12 +1,13 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
 import {useState} from "react";
-import {FormControl, InputGroup, NavLink} from "react-bootstrap";
+import {FormControl, InputGroup, NavLink, OverlayTrigger, Tooltip} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import _ from "underscore";
 import "../Styles/Words.css"
 import SimpleBars from "simplebar-react";
+import {IoMdInformationCircle} from "react-icons/all";
 
 function Words(props) {
     const {board, setHighlights} = props
@@ -83,8 +84,22 @@ function Words(props) {
                             </ListGroup>
                         </SimpleBars>
 
-                        <p className={"mt-3"}>Words found in {board.time}ms<br/>Correct as per Collins Scrabble
-                            Dictionary 2019</p>
+                        <p className={"mt-3"}>
+                            Words found in {board.time}ms <OverlayTrigger
+                            placement="right" delay={{show: 250, hide: 2000}}
+                            overlay={(props) => (
+                                <Tooltip id="button-tooltip" {...props}>
+                                    Words correct as per Collins Scrabble
+                                    Dictionary 2019 and Scores calculated as per <a
+                                    href="https://en.wikipedia.org/wiki/Boggle#Rules"
+                                    target="_blank" rel="noreferrer">
+                                    Wikipedia</a>
+                                </Tooltip>
+                            )}
+                        ><IoMdInformationCircle/></OverlayTrigger>
+                        </p>
+
+
                     </Card.Body>
                 </Accordion.Collapse>
             </Card>
