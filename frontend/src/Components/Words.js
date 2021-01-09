@@ -45,6 +45,7 @@ function Words(props) {
 
     return (
         <Accordion>
+            {numWords > 0 &&
             <Card>
                 <Card.Header>
                     <h2 className={"mb-0"}>
@@ -103,6 +104,7 @@ function Words(props) {
                     </Card.Body>
                 </Accordion.Collapse>
             </Card>
+            }
         </Accordion>
 
     )
