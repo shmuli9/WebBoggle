@@ -25,24 +25,6 @@ function Words(props) {
     const sizeFiltered = _.size(filteredWords)
     const sortedByLen = [...filteredWords].sort((f, s) => s[0].length - f[0].length)
 
-    const wordScore = (word) => {
-        const len = word.length
-
-        switch (len) {
-            case 3:
-            case 4:
-                return 1
-            case 5:
-                return 2
-            case 6:
-                return 3
-            case 7:
-                return 5
-            default:
-                return 11
-        }
-    }
-
     return (
         <Accordion>
             {numWords > 0 &&
@@ -79,7 +61,7 @@ function Words(props) {
                                     <ListGroup.Item
                                         onClick={() => word === activeWord ? setActiveHighlights("", []) : setActiveHighlights(word, coord)}
                                         active={word === activeWord} action as={NavLink} key={word}>
-                                        {word} ({wordScore(word)})
+                                        {word} ({word.length < 8 ? {3: 1, 4: 1, 5: 2, 6: 3, 7: 5}[word.length] : 11})
                                     </ListGroup.Item>
                                 )}
                             </ListGroup>
