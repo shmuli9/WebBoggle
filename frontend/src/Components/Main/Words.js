@@ -5,7 +5,7 @@ import {FormControl, InputGroup, NavLink, OverlayTrigger, Tooltip} from "react-b
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import _ from "underscore";
-import "../Styles/Words.css"
+import "../../Styles/Words.css"
 import SimpleBars from "simplebar-react";
 import {IoMdInformationCircle} from "react-icons/all";
 
