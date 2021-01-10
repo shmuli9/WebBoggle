@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import LoadingScreen from "./Components/Loading";
 import 'simplebar/dist/simplebar.min.css';
 import SimpleBars from "simplebar-react";
+import Main from "./Components/Main/Main";
 
 
 function App() {
@@ -14,8 +15,7 @@ function App() {
         maxWidth: "1080px"
     }
 
-    const Main = lazy(() => import("./Components/Main"));
-    const About = lazy(() => import("./Components/About"));
+    const About = lazy(() => import("./Components/About/About"));
 
     return (
         <Router>
