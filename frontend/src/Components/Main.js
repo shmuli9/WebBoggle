@@ -26,7 +26,7 @@ function Main() {
     const newBoard = () => {
         setHighlights([])
         setBoard(defaultBoard)
-        fetch(`/api/generate_board/${game_id ? game_id : ""}`, {method: "POST"})
+        fetch(`/api/generate_board/${game_id && game_id}`, {method: "POST"})
             .then(res => res.json())
             .then(data => {
                 setBoard({

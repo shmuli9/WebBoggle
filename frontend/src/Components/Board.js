@@ -15,9 +15,8 @@ function Board(props) {
             let die = ""
             for (let j = 0; j < dice[i].length; j++) {
                 die = dice[i][j]
-                r.push(<td key={`cell-${i}-${j}`} style={
-                    highlights ?
-                        highlights.find(el => el === `${i},${j}`) ? style : {} : {}}>
+                r.push(<td key={`cell-${i}-${j}`}
+                           style={highlights && highlights.find(el => el === `${i},${j}`) && style}>
                     {die}
                 </td>)
             }
