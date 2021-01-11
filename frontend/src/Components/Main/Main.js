@@ -6,7 +6,7 @@ import Words from "./Words";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import {Link, useHistory, useParams} from "react-router-dom";
-import Game from "./Game";
+// import Game from "./Game";
 
 function Main() {
     const defaultBoard = {
@@ -59,7 +59,7 @@ function Main() {
 
             <Row className="mt-5">
                 <Col sm={4} className={"mb-auto"}>
-                    <Game/>
+                    {/*<Game/>*/}
                 </Col>
 
                 <Col sm={4} className={"mb-auto"}>
