@@ -69,7 +69,7 @@ function Words(props) {
 
                         <p className={"mt-3"}>
                             Words found in {board.time}ms <OverlayTrigger
-                            placement="right" delay={{show: 250, hide: 2000}}
+                            placement="top" delay={{show: 250, hide: 2000}}
                             overlay={(props) => (
                                 <Tooltip id="button-tooltip" {...props}>
                                     Words correct as per Collins Scrabble
@@ -78,8 +78,8 @@ function Words(props) {
                                     target="_blank" rel="noreferrer">
                                     Wikipedia</a>
                                 </Tooltip>
-                            )}
-                        ><IoMdInformationCircle/></OverlayTrigger>
+                            )}>
+                            <IoMdInformationCircle/></OverlayTrigger>
                         </p>
 
 
