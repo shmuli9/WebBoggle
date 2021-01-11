@@ -17,17 +17,17 @@ function Main() {
     }
     const [board, setBoard] = useState(defaultBoard)
     const [highlights, setHighlights] = useState([]);
-    const {game_id} = useParams();
+    const {gameID} = useParams();
     const history = useHistory()
 
     useEffect(() => {
-        newBoard()
+        newBoard(gameID)
     }, []);
 
-    const newBoard = () => {
+    const newBoard = (gameId = "") => {
         setHighlights([])
         setBoard(defaultBoard)
-        fetch(`/api/generate_board/${game_id && game_id}`, {method: "POST"})
+        fetch(`/api/generate_board/${gameId}`, {method: "POST"})
             .then(res => res.json())
             .then(data => {
                 setBoard({
@@ -36,8 +36,8 @@ function Main() {
                     words: data.words,
                     time: data.time_taken
                 })
-                if (game_id) {
-                    history.push("/") // redirect to standard page and clear game_id
+                if (gameID !== data.game_id) {
+                    history.push(`/${data.game_id}`)
                 }
             });
     }
@@ -46,12 +46,16 @@ function Main() {
     return (
         <>
             <Alert variant={"dark"} className={""}>
-                <Link to={"/"} className="h2 alert-heading">WebBoggle</Link>
+                <Link onClick={() => newBoard()} to={"/"} className="h2 alert-heading">WebBoggle</Link>
                 <hr/>
                 <p className={"mb-0"}>
                     Generate boggle boards and share them with your friends so that you can play remotely!
                 </p>
             </Alert>
+
+            <Row>
+                <Col></Col>
+            </Row>
 
             <Row className="mt-5">
                 <Col sm={4} className={"mb-auto"}>
@@ -60,7 +64,7 @@ function Main() {
 
                 <Col sm={4} className={"mb-auto"}>
                     <Board dice={board.dice} highlights={highlights}/>
-                    <Button variant={"success"} className={"btn-lg font-weight-bold mt-5"} onClick={newBoard}>
+                    <Button variant={"success"} className={"btn-lg font-weight-bold mt-5"} onClick={() => newBoard("")}>
                         New Board
                     </Button>
 

@@ -14,6 +14,11 @@ function Header() {
         }
     }
 
+    const formSubmit = (e) => {
+        e.preventDefault()
+        joinGame()
+    }
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Navbar.Brand as={Link} to="/">WebBoggle</Navbar.Brand>
@@ -22,7 +27,7 @@ function Header() {
                 <Nav className="mr-auto">
                     <Nav.Link as={Link} to="/about">About</Nav.Link>
                 </Nav>
-                <Form inline>
+                <Form inline onSubmit={formSubmit}>
                     <FormControl type="text" placeholder="GAME CODE" maxLength="6"
                                  style={{textTransform: "uppercase"}} className="mr-sm-2"
                                  onChange={e => setGame(e.target.value)} value={game}/>

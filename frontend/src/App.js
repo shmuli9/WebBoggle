@@ -2,7 +2,7 @@ import {lazy, Suspense} from 'react';
 import Container from "react-bootstrap/Container"
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
 import LoadingScreen from "./Components/Loading";
 import 'simplebar/dist/simplebar.min.css';
 import SimpleBars from "simplebar-react";
@@ -26,13 +26,13 @@ function App() {
                 <Suspense fallback={LoadingScreen}>
                     <Container className="text-center mt-4" style={containerStyles}>
                         <Switch>
-                            <Route path={"/about"}>
+                            <Route exact path={"/about"}>
                                 <About/>
                             </Route>
-                            <Route path={"/join/:game_id"}>
-                                <Main/>
+                            <Route exact path={"/join/:gameID"}
+                                   render={({ match }) => <Redirect to={`/${match.params.gameID}`}/>}>
                             </Route>
-                            <Route path={"/"}>
+                            <Route path={["/:gameID", "/"]}>
                                 <Main/>
                             </Route>
                         </Switch>
