@@ -27,7 +27,10 @@ function Main() {
     const newBoard = (gameId = "") => {
         setHighlights([])
         setBoard(defaultBoard)
-        fetch(`/api/generate_board/${gameId}`, {method: "POST"})
+
+        const api_url = process.env.REACT_APP_API_URL
+
+        fetch(`${api_url}/api/generate_board/${gameId}`, {method: "POST"})
             .then(res => res.json())
             .then(data => {
                 setBoard({
@@ -41,7 +44,6 @@ function Main() {
                 }
             });
     }
-
 
     return (
         <>
