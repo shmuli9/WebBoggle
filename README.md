@@ -1,5 +1,7 @@
 # WebBoggle
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3b545618-f6aa-4640-88a7-416f17cde608/deploy-status)](https://app.netlify.com/sites/webboggle/deploys)
+
 #### The aim of this application is to solve the board game Boggle(TM)
 
 My solution recursively searches the entire board, but significant speed optimisations were achieved by pruning search 
