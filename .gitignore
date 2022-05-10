@@ -1,2 +1,5 @@
+.idea/
+venv/
+
 /app/app.db
 /migrations/
